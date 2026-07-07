@@ -1,0 +1,402 @@
+[
+  {
+    "id": "towel-behind",
+    "name": "Towel Behind",
+    "version": 1,
+    "category": "irons",
+    "environments": ["range", "net"],
+    "focuses": ["contact"],
+    "type": "builder",
+    "purpose": "Groove ball-first contact and move the swing's low point forward.",
+    "setup": "Fold a towel and place it one grip-length behind the ball on the target line.",
+    "steps": [
+      "Make half-swings, clipping the ball without touching the towel.",
+      "Build to fuller swings as contact stays clean.",
+      "Move the towel closer to the ball as you succeed."
+    ],
+    "cue": "Ball first, turf in front.",
+    "goal": "7 of 10 clean strikes without touching the towel.",
+    "visualConcept": "Top-down lane showing ball, target line, and a shaded towel zone behind the ball; green clip point ahead of the ball. Club low point arrives after the ball.",
+    "rationale": "Low-point control is the core amateur ball-striking skill; the towel gives instant tactile feedback without a technical swing thought."
+  },
+  {
+    "id": "toe-heel-gate",
+    "name": "Toe-Heel Gate",
+    "version": 1,
+    "category": "irons",
+    "environments": ["range", "net"],
+    "focuses": ["contact"],
+    "type": "builder",
+    "purpose": "Train center-face strike quality and remove toe/heel mishits.",
+    "setup": "Push two tees into the turf just wider than the clubhead, one at the toe and one at the heel, with the ball centered between them.",
+    "steps": [
+      "Swing through the ball without knocking either tee.",
+      "Start with a wide gate for confidence.",
+      "Narrow the gate as your center contact improves."
+    ],
+    "cue": "Thread the middle.",
+    "goal": "5 clean passes in a row without disturbing a tee.",
+    "visualConcept": "Head-on clubface with two vertical gateposts at toe and heel; a strike heatmap dot lands in the center. Knocking a post flashes red.",
+    "rationale": "Center-face contact is the most reliable distance and accuracy gain for amateurs; the gate gives binary feedback without a technical cue."
+  },
+  {
+    "id": "feet-together-balance",
+    "name": "Feet-Together Balance",
+    "version": 1,
+    "category": "irons",
+    "environments": ["range", "net"],
+    "focuses": ["tempo"],
+    "type": "builder",
+    "purpose": "Expose and smooth out rushed tempo by removing the base of support.",
+    "setup": "Stand with your feet touching, a mid-iron in hand, ball teed low, swinging at 60 to 70 percent effort.",
+    "steps": [
+      "Make controlled swings with feet together.",
+      "Hold a balanced finish after each shot.",
+      "If you lose balance, ease the effort until the swing stays centered."
+    ],
+    "cue": "Finish and freeze.",
+    "goal": "8 of 10 swings with a held, balanced finish and no stumble.",
+    "visualConcept": "Figure with a narrow base and a balance meter beside it that tips when the swing overpowers the stance.",
+    "rationale": "Removing the base forces rhythm over muscle and is a standard self-correcting tempo diagnostic — no metronome or counting required."
+  },
+  {
+    "id": "driver-gate",
+    "name": "Driver Gate",
+    "version": 1,
+    "category": "driver",
+    "environments": ["range"],
+    "focuses": ["direction"],
+    "type": "builder",
+    "purpose": "Train a neutral-to-square path and center strike off the tee.",
+    "setup": "Tee the ball and place an alignment rod about three to four inches outside the ball, parallel to the target line, as an outer boundary.",
+    "steps": [
+      "Swing so the club approaches the ball without hitting the rod.",
+      "Check the rod stays in place after each swing.",
+      "Confirm the ball starts on your intended line."
+    ],
+    "cue": "Room on the outside.",
+    "goal": "7 of 10 clean swings with the ball starting on line.",
+    "visualConcept": "Top-down tee box showing ball, target line, and the outer rod boundary; a green approach corridor the club must travel down.",
+    "rationale": "For most recreational golfers a neutral path plus square face beats chasing a shaped shot; the corridor visual trains it without a swing-fault label."
+  },
+  {
+    "id": "three-and-switch",
+    "name": "Three-and-Switch",
+    "version": 1,
+    "category": "driver",
+    "environments": ["range"],
+    "focuses": ["tempo"],
+    "type": "transfer",
+    "purpose": "Hold the same tempo across the driver and wedge, the two clubs amateurs most often rush and decelerate.",
+    "setup": "Have a driver and a wedge ready on the range.",
+    "steps": [
+      "Hit 3 driver swings at a smooth tempo.",
+      "Immediately hit 3 wedge swings at the same tempo.",
+      "Alternate back and forth for 5 rounds."
+    ],
+    "cue": "Same song, different club.",
+    "goal": "Both clubs feel identical in rhythm across a full round of the drill.",
+    "visualConcept": "Split screen with two clubs sharing one tempo waveform (roughly 3:1 back-to-through) pulsing across both.",
+    "rationale": "Tempo should stay constant across clubs on full swings; alternating exposes when the driver speeds up relative to the wedge."
+  },
+  {
+    "id": "carry-ladder",
+    "name": "Carry Ladder",
+    "version": 1,
+    "category": "wedges",
+    "environments": ["range", "shortGame"],
+    "focuses": ["distanceControl"],
+    "type": "builder",
+    "purpose": "Build a reliable carry-distance map for partial wedge shots.",
+    "setup": "Pick three targets (for example 30, 50, and 70 yards) or use three swing-length stations (half, three-quarter, full) with one wedge.",
+    "steps": [
+      "Hit a cluster of shots to each distance, noting your stock swing feel for each.",
+      "Repeat until each distance has a repeatable feel.",
+      "Randomize the called distance to test recall."
+    ],
+    "cue": "Clock face, not effort.",
+    "goal": "Land 3 of 5 in each target zone, then survive a randomized round.",
+    "visualConcept": "Range fan with three concentric carry bands; shot dots cluster into each. Randomized mode reshuffles the called distance.",
+    "rationale": "Distance control from wedge range is a top strokes-gained lever; the ladder is the canonical method and the random finish forces course transfer."
+  },
+  {
+    "id": "trajectory-three-ways",
+    "name": "Trajectory Three-Ways",
+    "version": 1,
+    "category": "wedges",
+    "environments": ["shortGame"],
+    "focuses": ["trajectory", "adaptability"],
+    "type": "transfer",
+    "purpose": "Produce low, medium, and high wedge flights on demand with a single club.",
+    "setup": "Take one wedge to one distance of about 40 yards from an open lie.",
+    "steps": [
+      "Hit the target with a low runner.",
+      "Hit the same target with a standard flight.",
+      "Hit it again with a high, soft flight, varying ball position and face."
+    ],
+    "cue": "Handle forward flies it lower.",
+    "goal": "Three distinctly different flights all finishing near the target.",
+    "visualConcept": "One target with three overlaid trajectory arcs (low, mid, high) in different shades.",
+    "rationale": "Loft and trajectory management with one club is a core, credible short-game skill that builds real on-course versatility."
+  },
+  {
+    "id": "landing-spot-towel",
+    "name": "Landing-Spot Towel",
+    "version": 1,
+    "category": "chipping",
+    "environments": ["shortGame"],
+    "focuses": ["distanceControl"],
+    "type": "builder",
+    "purpose": "Shift focus from the hole to a chosen landing spot, the actual controllable variable in chipping.",
+    "setup": "Lay a towel as the landing target 3 to 15 feet out from a standard chip lie.",
+    "steps": [
+      "Chip to land the ball on the towel, ignoring where it finishes at first.",
+      "Once you can land it reliably, read how far it rolls out.",
+      "Adjust club or landing spot to finish near the hole."
+    ],
+    "cue": "Land it on the towel, let it roll.",
+    "goal": "5 of 10 chips land on the towel.",
+    "visualConcept": "Green with a highlighted landing rectangle plus a dotted roll-out path continuing to the hole.",
+    "rationale": "Landing-spot control is the primary chipping skill taught by top coaches; it separates the carry you control from the rollout you predict."
+  },
+  {
+    "id": "roll-out-ratios",
+    "name": "Roll-Out Ratios",
+    "version": 1,
+    "category": "chipping",
+    "environments": ["shortGame"],
+    "focuses": ["adaptability"],
+    "type": "transfer",
+    "purpose": "Learn each club's carry-to-roll ratio so club choice around the green becomes deliberate.",
+    "setup": "Use the same landing spot and the same chip, rotating through a pitching wedge, 9-iron, 8-iron, and sand wedge.",
+    "steps": [
+      "Land each club on the same spot.",
+      "Watch how far each one rolls out.",
+      "Log the pattern for each club."
+    ],
+    "cue": "Same landing, different rollout.",
+    "goal": "Correctly predict which club stops closest before hitting it.",
+    "visualConcept": "One landing spot with four color-coded roll-out lines of different lengths fanning to different finish points.",
+    "rationale": "Club-versus-rollout awareness is a proven, decision-focused chipping concept that trains why to pick a club, not just how to swing it."
+  },
+  {
+    "id": "lead-hand-only",
+    "name": "Lead-Hand Only",
+    "version": 1,
+    "category": "chipping",
+    "environments": ["shortGame", "net"],
+    "focuses": ["contact"],
+    "type": "builder",
+    "purpose": "Kill the scoop and flip that cause chunked and skulled chips.",
+    "setup": "Take a short chip with only your lead hand on the club, trail hand off or lightly supporting.",
+    "steps": [
+      "Chip short ones keeping the hand ahead of the clubhead through impact.",
+      "Build a feel for the handle leading the strike.",
+      "Add the trail hand back while keeping the same feel."
+    ],
+    "cue": "Handle leads the head.",
+    "goal": "8 of 10 clean contacts one-handed.",
+    "visualConcept": "Impact freeze-frame showing the handle ahead of the clubhead; a red 'flip' ghost shows the failure mode.",
+    "rationale": "Preventing the wrist flip is the most-cited chipping contact fix; lead-hand-only enforces it physically instead of as a swing thought."
+  },
+  {
+    "id": "splash-line",
+    "name": "Splash Line",
+    "version": 1,
+    "category": "bunker",
+    "environments": ["shortGame"],
+    "focuses": ["contact"],
+    "type": "builder",
+    "purpose": "Train a consistent sand-entry point and a shallow splash that uses the bounce instead of digging.",
+    "setup": "Draw a line in the sand perpendicular to the target, with no ball to start.",
+    "steps": [
+      "Splash the sand entering on the line with an open face and a shallow path.",
+      "Repeat until entry is consistent.",
+      "Add a ball on the line once the splash is reliable."
+    ],
+    "cue": "Bounce the sand, don't dig.",
+    "goal": "8 of 10 entries on the line with a shallow splash.",
+    "visualConcept": "Sand cross-section showing a shallow club path skimming under a banknote-sized splash zone, versus a red steep-dig path.",
+    "rationale": "Consistent entry and a shallow splash using the bounce is the foundational sand skill across every coaching source."
+  },
+  {
+    "id": "bunker-ladder",
+    "name": "Bunker Ladder",
+    "version": 1,
+    "category": "bunker",
+    "environments": ["shortGame"],
+    "focuses": ["distanceControl"],
+    "type": "transfer",
+    "purpose": "Control sand-shot distance through follow-through length rather than swing violence.",
+    "setup": "Use the same lie with targets set progressively farther onto the green.",
+    "steps": [
+      "Keep the same entry and splash for every shot.",
+      "Vary only the follow-through: short, half, then full finish.",
+      "Make each ball carry past the previous one."
+    ],
+    "cue": "Distance lives in the finish.",
+    "goal": "Land each successive ball past the previous, 4 in a row.",
+    "visualConcept": "Bunker with a fan of landing bands and a follow-through length meter tied to carry distance.",
+    "rationale": "Distance-by-follow-through with a constant splash is the standard pro method for sand distance control."
+  },
+  {
+    "id": "start-line-gate",
+    "name": "Start-Line Gate",
+    "version": 1,
+    "category": "putting",
+    "environments": ["puttingGreen"],
+    "focuses": ["direction"],
+    "type": "builder",
+    "purpose": "Roll the ball on the intended start line with a centered strike.",
+    "setup": "Place two tees just wider than the ball about 12 inches ahead on a straight putt, with the hole about 4 feet away.",
+    "steps": [
+      "Putt through the gate without clipping a tee.",
+      "Make 3 in a row.",
+      "Progress to 5 in a row."
+    ],
+    "cue": "Through the gate, into the hole.",
+    "goal": "5 clean makes in a row.",
+    "visualConcept": "Top-down straight putt with a narrow tee gate on the line to the cup; clipping a tee flashes red.",
+    "rationale": "The gate trains start line and center-face contact together and is the most trusted, most visual putting drill in the game."
+  },
+  {
+    "id": "distance-ladder",
+    "name": "Distance Ladder",
+    "version": 1,
+    "category": "putting",
+    "environments": ["puttingGreen"],
+    "focuses": ["distanceControl"],
+    "type": "builder",
+    "purpose": "Build lag feel and eliminate three-putts.",
+    "setup": "Set tees or markers as target zones at increasing distances, for example every few feet from 15 to 40 feet.",
+    "steps": [
+      "Roll putts to stop inside each successive zone, working outward.",
+      "Then work back inward.",
+      "Randomize the called zone to finish."
+    ],
+    "cue": "Roll it to die in the zone.",
+    "goal": "Land consecutive putts in successive zones without overshooting.",
+    "visualConcept": "Green with stacked distance bands like rungs; the ball must stop inside each rung.",
+    "rationale": "Speed control is the dominant three-putt-avoidance skill; the ladder trains feel across a range of lengths."
+  },
+  {
+    "id": "clock-circle",
+    "name": "Clock Circle",
+    "version": 1,
+    "category": "putting",
+    "environments": ["puttingGreen"],
+    "focuses": ["scoring"],
+    "type": "transfer",
+    "purpose": "Convert makeable short putts under mild pressure.",
+    "setup": "Place balls at the 3, 6, 9, and 12 o'clock positions around the hole, about 3 feet from the cup.",
+    "steps": [
+      "Hole all four in a row.",
+      "A miss restarts the circle.",
+      "Extend the distance as you succeed."
+    ],
+    "cue": "Commit to the center.",
+    "goal": "Clear the full circle without a miss, then repeat from 4 feet.",
+    "visualConcept": "Overhead hole with four ball positions on a clock ring; the ring lights up as each is holed.",
+    "rationale": "Short-putt conversion under a make-in-a-row requirement builds confidence and pressure tolerance where rounds are saved."
+  },
+  {
+    "id": "par-18",
+    "name": "Par 18",
+    "version": 1,
+    "category": "chipping",
+    "environments": ["shortGame"],
+    "focuses": ["scoring", "adaptability"],
+    "type": "transfer",
+    "purpose": "Practice the full up-and-down process under scorekeeping pressure.",
+    "setup": "Choose 9 different chip locations around a green; each is a par-2 (chip plus putt).",
+    "steps": [
+      "Chip and putt out each location.",
+      "Total your strokes against a par of 18.",
+      "Log the score and try to beat it next time."
+    ],
+    "cue": "Every chip has a putt attached.",
+    "goal": "Score 18 or better over the 9 locations.",
+    "visualConcept": "Green map with 9 numbered stations ringing it and a running scorecard.",
+    "rationale": "A tour-favorite up-and-down game that gives instant weakness feedback and is inherently varied, driving practice into real scoring."
+  },
+  {
+    "id": "nine-shot-range",
+    "name": "Nine-Shot Range",
+    "version": 1,
+    "category": "irons",
+    "environments": ["range"],
+    "focuses": ["adaptability", "trajectory"],
+    "type": "transfer",
+    "purpose": "Vary club, target, and flight every shot to mimic on-course demand.",
+    "setup": "Have your full bag on the range.",
+    "steps": [
+      "On every ball, choose a new club and a new target.",
+      "Run your full pre-shot routine as if playing 18 holes.",
+      "Never hit two consecutive shots alike."
+    ],
+    "cue": "New shot, new routine, every time.",
+    "goal": "Play a full simulated front nine without repeating a shot.",
+    "visualConcept": "Range with rotating target flags and a shuffling club/target prompt card each rep.",
+    "rationale": "Random practice with a full pre-shot routine is the best-supported method for course transfer in the motor-learning literature."
+  },
+  {
+    "id": "two-ball-takeaway",
+    "name": "Two-Ball Takeaway",
+    "version": 1,
+    "category": "irons",
+    "environments": ["range", "net"],
+    "focuses": ["tempo"],
+    "type": "builder",
+    "purpose": "Smooth a rushed takeaway.",
+    "setup": "Place two balls on the target line, one about 3 inches behind the other, and set up to the front ball.",
+    "steps": [
+      "On the backswing, knock the rear ball away.",
+      "Swing through and strike the front ball cleanly.",
+      "Slow the takeaway just enough to reach the rear ball first."
+    ],
+    "cue": "Sweep the back ball first.",
+    "goal": "Clean front-ball strike 7 of 10.",
+    "visualConcept": "Two balls inline with a low, smooth takeaway animation brushing the rear one before striking the front.",
+    "rationale": "Slowing the takeaway smooths path and tempo without a mechanical thought; optional depth alongside the primary tempo drills."
+  },
+  {
+    "id": "continuous-swings",
+    "name": "Continuous Swings",
+    "version": 1,
+    "category": "irons",
+    "environments": ["range", "net"],
+    "focuses": ["tempo"],
+    "type": "builder",
+    "purpose": "Remove stop-start rhythm and let the swing carry itself.",
+    "setup": "Line up 3 to 4 balls in a row.",
+    "steps": [
+      "Strike each ball without pausing between them.",
+      "Keep the club always moving.",
+      "Hold the final finish after the last ball."
+    ],
+    "cue": "Never let it stop.",
+    "goal": "All balls struck with unbroken rhythm.",
+    "visualConcept": "Continuous looping swing waveform flowing across multiple balls.",
+    "rationale": "Trains flowing tempo and sequencing; optional depth for players who want a second continuous-motion tempo option."
+  },
+  {
+    "id": "circle-your-foot",
+    "name": "Circle-Your-Foot",
+    "version": 1,
+    "category": "bunker",
+    "environments": ["shortGame"],
+    "focuses": ["contact"],
+    "type": "builder",
+    "purpose": "Learn the entry point and splash size in greenside sand.",
+    "setup": "Draw a foot-sized circle in the sand with the ball in the center.",
+    "steps": [
+      "Enter the sand behind the ball at the back of the circle.",
+      "Splash the whole circle out, exiting in front.",
+      "Accelerate through so the ball rides out on the sand."
+    ],
+    "cue": "Throw the whole island out.",
+    "goal": "Consistently remove the full circle with the ball riding out.",
+    "visualConcept": "Sand with a highlighted oval 'island' lifting out as one piece.",
+    "rationale": "Teaches splash size and shallow entry visually; optional depth that overlaps Splash Line, so use whichever visual you prefer."
+  }
+]

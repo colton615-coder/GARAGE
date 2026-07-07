@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 70;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9CE096B52FFDA78A00FC79DD /* PracticePlanValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */; };
+		9CE096B62FFDA78A00FC79DD /* PracticePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */; };
+		9CE096B82FFDB1D500FC79DD /* PracticePlanFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */; };
+		9CF09DAA2FFC973A00D0C856 /* DrillLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF09DA92FFC973A00D0C856 /* DrillLibrary.swift */; };
+		9CF09DAC2FFC974500D0C856 /* drills.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CF09DAB2FFC974500D0C856 /* drills.json */; };
+		AA0000000000000000000001 /* GarageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* GarageApp.swift */; };
+		AA0000000000000000000002 /* GarageRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000002 /* GarageRootView.swift */; };
+		AA0000000000000000000003 /* GarageTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000003 /* GarageTheme.swift */; };
+		AA0000000000000000000004 /* GarageComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000004 /* GarageComponents.swift */; };
+		AA0000000000000000000005 /* GarageHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000005 /* GarageHomeView.swift */; };
+		AA0000000000000000000006 /* BucketStrikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000006 /* BucketStrikeView.swift */; };
+		AA0000000000000000000007 /* TempoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000007 /* TempoView.swift */; };
+		AA0000000000000000000008 /* ColtsCaddyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000008 /* ColtsCaddyView.swift */; };
+		AA0000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000009 /* Assets.xcassets */; };
+		AA0000000000000000000011 /* BucketStrikeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000011 /* BucketStrikeModels.swift */; };
+		AA0000000000000000000012 /* BucketStrikeDrillCatalogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000012 /* BucketStrikeDrillCatalogs.swift */; };
+		AA0000000000000000000013 /* BucketStrikeSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000013 /* BucketStrikeSessionState.swift */; };
+		AA0000000000000000000014 /* BucketStrikeActivePracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000014 /* BucketStrikeActivePracticeView.swift */; };
+		AA0000000000000000000015 /* BucketStrikeDrillVisuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000015 /* BucketStrikeDrillVisuals.swift */; };
+		AA0000000000000000000016 /* BucketStrikeTrackerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000016 /* BucketStrikeTrackerViews.swift */; };
+		AA0000000000000000000017 /* BucketStrikeCompletionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000017 /* BucketStrikeCompletionViews.swift */; };
+		AA0000000000000000000018 /* BucketStrikePlanEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000018 /* BucketStrikePlanEditingView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9CE096C12FFDB70E00FC79DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = GG0000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE0000000000000000000001;
+			remoteInfo = Garage;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PracticePlan.swift; path = ../../Models/BucketStrike/PracticePlan.swift; sourceTree = "<group>"; };
+		9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PracticePlanValidator.swift; path = ../../Models/BucketStrike/PracticePlanValidator.swift; sourceTree = "<group>"; };
+		9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticePlanFactory.swift; sourceTree = "<group>"; };
+		9CE096BD2FFDB70E00FC79DD /* GarageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GarageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CF09DA92FFC973A00D0C856 /* DrillLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillLibrary.swift; sourceTree = "<group>"; };
+		9CF09DAB2FFC974500D0C856 /* drills.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = drills.json; sourceTree = "<group>"; };
+		BB0000000000000000000001 /* GarageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarageApp.swift; sourceTree = "<group>"; };
+		BB0000000000000000000002 /* GarageRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarageRootView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000003 /* GarageTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarageTheme.swift; sourceTree = "<group>"; };
+		BB0000000000000000000004 /* GarageComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarageComponents.swift; sourceTree = "<group>"; };
+		BB0000000000000000000005 /* GarageHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarageHomeView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000006 /* BucketStrikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000007 /* TempoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempoView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000008 /* ColtsCaddyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColtsCaddyView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BB0000000000000000000010 /* Garage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000000000000000000011 /* BucketStrikeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeModels.swift; sourceTree = "<group>"; };
+		BB0000000000000000000012 /* BucketStrikeDrillCatalogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeDrillCatalogs.swift; sourceTree = "<group>"; };
+		BB0000000000000000000013 /* BucketStrikeSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeSessionState.swift; sourceTree = "<group>"; };
+		BB0000000000000000000014 /* BucketStrikeActivePracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeActivePracticeView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000015 /* BucketStrikeDrillVisuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeDrillVisuals.swift; sourceTree = "<group>"; };
+		BB0000000000000000000016 /* BucketStrikeTrackerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeTrackerViews.swift; sourceTree = "<group>"; };
+		BB0000000000000000000017 /* BucketStrikeCompletionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeCompletionViews.swift; sourceTree = "<group>"; };
+		BB0000000000000000000018 /* BucketStrikePlanEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikePlanEditingView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		9CE096BE2FFDB70E00FC79DD /* GarageTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GarageTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9CE096BA2FFDB70E00FC79DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC0000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD0000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				DD0000000000000000000002 /* Garage */,
+				9CE096BE2FFDB70E00FC79DD /* GarageTests */,
+				DD0000000000000000000010 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000002 /* Garage */ = {
+			isa = PBXGroup;
+			children = (
+				DD0000000000000000000003 /* App */,
+				DD0000000000000000000004 /* DesignSystem */,
+				DD0000000000000000000005 /* Screens */,
+				BB0000000000000000000009 /* Assets.xcassets */,
+			);
+			path = Garage;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000001 /* GarageApp.swift */,
+				BB0000000000000000000002 /* GarageRootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000004 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000003 /* GarageTheme.swift */,
+				BB0000000000000000000004 /* GarageComponents.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000005 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				DD0000000000000000000006 /* Home */,
+				DD0000000000000000000007 /* BucketStrike */,
+				DD0000000000000000000008 /* Tempo */,
+				DD0000000000000000000009 /* ColtsCaddy */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000006 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000005 /* GarageHomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000007 /* BucketStrike */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000006 /* BucketStrikeView.swift */,
+				BB0000000000000000000011 /* BucketStrikeModels.swift */,
+				BB0000000000000000000012 /* BucketStrikeDrillCatalogs.swift */,
+				BB0000000000000000000013 /* BucketStrikeSessionState.swift */,
+				BB0000000000000000000014 /* BucketStrikeActivePracticeView.swift */,
+				BB0000000000000000000015 /* BucketStrikeDrillVisuals.swift */,
+				BB0000000000000000000016 /* BucketStrikeTrackerViews.swift */,
+				BB0000000000000000000017 /* BucketStrikeCompletionViews.swift */,
+				BB0000000000000000000018 /* BucketStrikePlanEditingView.swift */,
+				9CF09DA92FFC973A00D0C856 /* DrillLibrary.swift */,
+				9CF09DAB2FFC974500D0C856 /* drills.json */,
+				9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */,
+				9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */,
+				9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */,
+			);
+			path = BucketStrike;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000008 /* Tempo */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000007 /* TempoView.swift */,
+			);
+			path = Tempo;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000009 /* ColtsCaddy */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000008 /* ColtsCaddyView.swift */,
+			);
+			path = ColtsCaddy;
+			sourceTree = "<group>";
+		};
+		DD0000000000000000000010 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000000000000000000010 /* Garage.app */,
+				9CE096BD2FFDB70E00FC79DD /* GarageTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9CE096BC2FFDB70E00FC79DD /* GarageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CE096C32FFDB70E00FC79DD /* Build configuration list for PBXNativeTarget "GarageTests" */;
+			buildPhases = (
+				9CE096B92FFDB70E00FC79DD /* Sources */,
+				9CE096BA2FFDB70E00FC79DD /* Frameworks */,
+				9CE096BB2FFDB70E00FC79DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9CE096C22FFDB70E00FC79DD /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9CE096BE2FFDB70E00FC79DD /* GarageTests */,
+			);
+			name = GarageTests;
+			packageProductDependencies = (
+			);
+			productName = GarageTests;
+			productReference = 9CE096BD2FFDB70E00FC79DD /* GarageTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EE0000000000000000000001 /* Garage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = JJ0000000000000000000002 /* Build configuration list for PBXNativeTarget "Garage" */;
+			buildPhases = (
+				FF0000000000000000000001 /* Sources */,
+				CC0000000000000000000001 /* Frameworks */,
+				FF0000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Garage;
+			productName = Garage;
+			productReference = BB0000000000000000000010 /* Garage.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		GG0000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					9CE096BC2FFDB70E00FC79DD = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = EE0000000000000000000001;
+					};
+					EE0000000000000000000001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = JJ0000000000000000000001 /* Build configuration list for PBXProject "Garage" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD0000000000000000000001;
+			productRefGroup = DD0000000000000000000010 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE0000000000000000000001 /* Garage */,
+				9CE096BC2FFDB70E00FC79DD /* GarageTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9CE096BB2FFDB70E00FC79DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF0000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000009 /* Assets.xcassets in Resources */,
+				9CF09DAC2FFC974500D0C856 /* drills.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9CE096B92FFDB70E00FC79DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF0000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000001 /* GarageApp.swift in Sources */,
+				AA0000000000000000000002 /* GarageRootView.swift in Sources */,
+				AA0000000000000000000003 /* GarageTheme.swift in Sources */,
+				AA0000000000000000000004 /* GarageComponents.swift in Sources */,
+				9CF09DAA2FFC973A00D0C856 /* DrillLibrary.swift in Sources */,
+				AA0000000000000000000005 /* GarageHomeView.swift in Sources */,
+				AA0000000000000000000006 /* BucketStrikeView.swift in Sources */,
+				AA0000000000000000000011 /* BucketStrikeModels.swift in Sources */,
+				AA0000000000000000000012 /* BucketStrikeDrillCatalogs.swift in Sources */,
+				AA0000000000000000000013 /* BucketStrikeSessionState.swift in Sources */,
+				9CE096B82FFDB1D500FC79DD /* PracticePlanFactory.swift in Sources */,
+				AA0000000000000000000014 /* BucketStrikeActivePracticeView.swift in Sources */,
+				9CE096B52FFDA78A00FC79DD /* PracticePlanValidator.swift in Sources */,
+				9CE096B62FFDA78A00FC79DD /* PracticePlan.swift in Sources */,
+				AA0000000000000000000015 /* BucketStrikeDrillVisuals.swift in Sources */,
+				AA0000000000000000000016 /* BucketStrikeTrackerViews.swift in Sources */,
+				AA0000000000000000000017 /* BucketStrikeCompletionViews.swift in Sources */,
+				AA0000000000000000000018 /* BucketStrikePlanEditingView.swift in Sources */,
+				AA0000000000000000000007 /* TempoView.swift in Sources */,
+				AA0000000000000000000008 /* ColtsCaddyView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9CE096C22FFDB70E00FC79DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE0000000000000000000001 /* Garage */;
+			targetProxy = 9CE096C12FFDB70E00FC79DD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		9CE096C42FFDB70E00FC79DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9WCDSNG464;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LIS.GarageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garage.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Garage";
+			};
+			name = Debug;
+		};
+		9CE096C52FFDB70E00FC79DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9WCDSNG464;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LIS.GarageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garage.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Garage";
+			};
+			name = Release;
+		};
+		HH0000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		HH0000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		HH0000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 9WCDSNG464;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Garage;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.colton.Garage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		HH0000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 9WCDSNG464;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Garage;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.colton.Garage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9CE096C32FFDB70E00FC79DD /* Build configuration list for PBXNativeTarget "GarageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CE096C42FFDB70E00FC79DD /* Debug */,
+				9CE096C52FFDB70E00FC79DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		JJ0000000000000000000001 /* Build configuration list for PBXProject "Garage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				HH0000000000000000000001 /* Debug */,
+				HH0000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		JJ0000000000000000000002 /* Build configuration list for PBXNativeTarget "Garage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				HH0000000000000000000003 /* Debug */,
+				HH0000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = GG0000000000000000000001 /* Project object */;
+}
