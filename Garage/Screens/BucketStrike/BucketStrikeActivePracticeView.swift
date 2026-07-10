@@ -112,6 +112,9 @@ struct BucketActivePracticeView: View {
                 state: session.currentExecutionState,
                 canGoPrevious: session.canGoPrevious,
                 isFinalDrill: session.isFinalDrill,
+                onStartTimer: { session.startCurrentTimer() },
+                onPauseTimer: { session.pauseCurrentTimer() },
+                onResetTimer: { session.resetCurrentTimer() },
                 onPrevious: moveToPreviousDrill,
                 onLogResult: presentResultEntry,
                 onShowIntel: { isInstructionPanelPresented = true }
@@ -339,6 +342,7 @@ struct BucketSetupTeachingView: View {
     let drillCount: Int
     let onStart: () -> Void
     let onShowIntel: () -> Void
+    @State private var completedSteps: Set<String> = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -374,29 +378,25 @@ struct BucketSetupTeachingView: View {
                 .accessibilityLabel("Drill Intel")
             }
 
-            Text(drill.goalText)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(GarageTheme.textSecondary)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
+            BucketVisualizationWorkspace(
+                drill: drill,
+                showsCallouts: true,
+                caption: drill.primaryCueText
+            )
+
+            BucketSetupSectionHeader(title: "Setup", symbolName: "list.bullet")
 
             VStack(spacing: 10) {
-                ForEach(drill.setupStepTexts.prefix(3), id: \.self) { step in
-                    HStack(alignment: .top, spacing: 10) {
-                        Image(systemName: "checkmark")
-                            .font(.caption.weight(.heavy))
-                            .foregroundStyle(GarageTheme.accentGreen)
-                            .frame(width: 18, height: 18)
-                            .accessibilityHidden(true)
-
-                        Text(step)
-                            .font(.subheadline.weight(.medium))
-                            .foregroundStyle(.white.opacity(0.82))
-                            .fixedSize(horizontal: false, vertical: true)
-
-                        Spacer(minLength: 0)
-                    }
+                ForEach(drill.setupStepTexts, id: \.self) { step in
+                    setupChecklistRow(step)
                 }
+            }
+
+            BucketSetupSectionHeader(title: "What to Watch", symbolName: "eye")
+
+            VStack(alignment: .leading, spacing: 10) {
+                watchRow(symbolName: "target", text: drill.focusText)
+                watchRow(symbolName: "chart.bar", text: drill.goalText)
             }
 
             Button(action: onStart) {
@@ -420,6 +420,67 @@ struct BucketSetupTeachingView: View {
                 )
         )
     }
+
+    private func setupChecklistRow(_ step: String) -> some View {
+        let isComplete = completedSteps.contains(step)
+
+        return Button {
+            if isComplete {
+                completedSteps.remove(step)
+            } else {
+                completedSteps.insert(step)
+            }
+        } label: {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: isComplete ? "checkmark.circle.fill" : "circle")
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(isComplete ? GarageTheme.accentGreen : .white.opacity(0.35))
+                    .accessibilityHidden(true)
+
+                Text(step)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.white.opacity(isComplete ? 0.55 : 0.82))
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Spacer(minLength: 0)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.15), value: isComplete)
+        .accessibilityValue(isComplete ? "Done" : "Not done")
+    }
+
+    private func watchRow(symbolName: String, text: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: symbolName)
+                .font(.caption.weight(.heavy))
+                .foregroundStyle(GarageTheme.accentGreen)
+                .frame(width: 18, height: 18)
+                .accessibilityHidden(true)
+
+            Text(text)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.white.opacity(0.82))
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer(minLength: 0)
+        }
+    }
+}
+
+struct BucketSetupSectionHeader: View {
+    let title: String
+    let symbolName: String
+
+    var body: some View {
+        Label(title, systemImage: symbolName)
+            .font(.caption.weight(.bold))
+            .tracking(1.2)
+            .textCase(.uppercase)
+            .foregroundStyle(GarageTheme.accentGreen)
+    }
 }
 
 struct BucketActiveExecutionView: View {
@@ -427,6 +488,9 @@ struct BucketActiveExecutionView: View {
     let state: BucketDrillExecutionState
     let canGoPrevious: Bool
     let isFinalDrill: Bool
+    var onStartTimer: () -> Void = {}
+    var onPauseTimer: () -> Void = {}
+    var onResetTimer: () -> Void = {}
     let onPrevious: () -> Void
     let onLogResult: () -> Void
     let onShowIntel: () -> Void
@@ -445,11 +509,23 @@ struct BucketActiveExecutionView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            BucketEditorialTeachingBlock(
-                title: "Target",
-                text: "Target: \(state.target)",
-                symbolName: "number.circle"
+            BucketVisualizationWorkspace(drill: drill)
+
+            BucketDrillExecutionTracker(
+                drill: drill,
+                state: state,
+                onStartTimer: onStartTimer,
+                onPauseTimer: onPauseTimer,
+                onResetTimer: onResetTimer
             )
+
+            if drill.executionConfiguration.mode == .manualReps {
+                BucketEditorialTeachingBlock(
+                    title: "Target",
+                    text: "Target: \(state.target)",
+                    symbolName: "number.circle"
+                )
+            }
 
             BucketEditorialTeachingBlock(
                 title: "Focus",

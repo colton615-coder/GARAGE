@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0000000000000000000001 /* BucketStrikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0000000000000000000001 /* BucketStrikeService.swift */; };
 		9CE096B52FFDA78A00FC79DD /* PracticePlanValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */; };
 		9CE096B62FFDA78A00FC79DD /* PracticePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */; };
 		9CE096B82FFDB1D500FC79DD /* PracticePlanFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0000000000000000000001 /* BucketStrikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikeService.swift; sourceTree = "<group>"; };
 		9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PracticePlan.swift; path = ../../Models/BucketStrike/PracticePlan.swift; sourceTree = "<group>"; };
 		9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PracticePlanValidator.swift; path = ../../Models/BucketStrike/PracticePlanValidator.swift; sourceTree = "<group>"; };
 		9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticePlanFactory.swift; sourceTree = "<group>"; };
@@ -92,6 +94,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE0000000000000000000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DE0000000000000000000002 /* BucketStrike */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DE0000000000000000000002 /* BucketStrike */ = {
+			isa = PBXGroup;
+			children = (
+				BC0000000000000000000001 /* BucketStrikeService.swift */,
+			);
+			path = BucketStrike;
+			sourceTree = "<group>";
+		};
 		DD0000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +125,7 @@
 				DD0000000000000000000003 /* App */,
 				DD0000000000000000000004 /* DesignSystem */,
 				DD0000000000000000000005 /* Screens */,
+				DE0000000000000000000001 /* Models */,
 				BB0000000000000000000009 /* Assets.xcassets */,
 			);
 			path = Garage;
@@ -313,6 +332,7 @@
 				AA0000000000000000000003 /* GarageTheme.swift in Sources */,
 				AA0000000000000000000004 /* GarageComponents.swift in Sources */,
 				9CF09DAA2FFC973A00D0C856 /* DrillLibrary.swift in Sources */,
+				AB0000000000000000000001 /* BucketStrikeService.swift in Sources */,
 				AA0000000000000000000005 /* GarageHomeView.swift in Sources */,
 				AA0000000000000000000006 /* BucketStrikeView.swift in Sources */,
 				AA0000000000000000000011 /* BucketStrikeModels.swift in Sources */,

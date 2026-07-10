@@ -2,6 +2,8 @@ import SwiftUI
 
 struct BucketVisualizationWorkspace: View {
     let drill: BucketPlanDrill
+    var showsCallouts = false
+    var caption: String?
 
     var body: some View {
         ZStack {
@@ -23,6 +25,10 @@ struct BucketVisualizationWorkspace: View {
                     BucketGenericPracticeVector()
                 }
             }
+
+            if showsCallouts, !drill.heroCallouts.isEmpty {
+                BucketHeroCalloutLayer(callouts: drill.heroCallouts)
+            }
         }
         .aspectRatio(4 / 3, contentMode: .fit)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -30,6 +36,160 @@ struct BucketVisualizationWorkspace: View {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .stroke(.white.opacity(0.10), lineWidth: 1)
         }
+        .overlay(alignment: .bottomLeading) {
+            if let caption, !caption.isEmpty {
+                BucketHeroCaptionChip(text: caption)
+                    .padding(12)
+            }
+        }
+    }
+}
+
+struct BucketHeroCallout: Identifiable {
+    enum ChipSide {
+        case leading
+        case trailing
+    }
+
+    let label: String
+    // Anchored in the unit space of the visual's drawing area (inside its 18pt inset).
+    let unitPoint: CGPoint
+    let chipSide: ChipSide
+
+    var id: String { label }
+}
+
+extension BucketPlanDrill {
+    var heroCallouts: [BucketHeroCallout] {
+        guard let visualConfig = visualProfile?.visualConfig else { return [] }
+
+        switch visualConfig {
+        case .gatePutt:
+            return [
+                BucketHeroCallout(label: "GATE", unitPoint: CGPoint(x: 0.58, y: 0.555), chipSide: .trailing),
+                BucketHeroCallout(label: "BALL", unitPoint: CGPoint(x: 0.50, y: 0.78), chipSide: .trailing),
+                BucketHeroCallout(label: "TARGET", unitPoint: CGPoint(x: 0.50, y: 0.22), chipSide: .trailing)
+            ]
+        case .strikeSpray:
+            return [
+                BucketHeroCallout(label: "CLUBFACE", unitPoint: CGPoint(x: 0.19, y: 0.35), chipSide: .trailing),
+                BucketHeroCallout(label: "CENTER ZONE", unitPoint: CGPoint(x: 0.59, y: 0.52), chipSide: .trailing)
+            ]
+        case .stepSequence:
+            return [
+                BucketHeroCallout(label: "START", unitPoint: CGPoint(x: 0.22, y: 0.36), chipSide: .trailing),
+                BucketHeroCallout(label: "FINISH", unitPoint: CGPoint(x: 0.78, y: 0.26), chipSide: .leading)
+            ]
+        case .distanceLadder:
+            return [
+                BucketHeroCallout(label: "BALL", unitPoint: CGPoint(x: 0.50, y: 0.84), chipSide: .trailing),
+                BucketHeroCallout(label: "ZONES", unitPoint: CGPoint(x: 0.27, y: 0.47), chipSide: .trailing)
+            ]
+        case .upDownChallenge:
+            return [
+                BucketHeroCallout(label: "CHIP FROM", unitPoint: CGPoint(x: 0.22, y: 0.62), chipSide: .trailing),
+                BucketHeroCallout(label: "LANDING", unitPoint: CGPoint(x: 0.52, y: 0.42), chipSide: .leading),
+                BucketHeroCallout(label: "HOLE", unitPoint: CGPoint(x: 0.78, y: 0.42), chipSide: .trailing)
+            ]
+        case .landingSpotClubCompare:
+            return [
+                BucketHeroCallout(label: "BALL", unitPoint: CGPoint(x: 0.18, y: 0.76), chipSide: .trailing),
+                BucketHeroCallout(label: "LANDING SPOT", unitPoint: CGPoint(x: 0.44, y: 0.60), chipSide: .trailing)
+            ]
+        case .bunkerSplash, .puttingClock, .feetTogetherBalance, .shuffledShotRoutine, .twoClubTempoCompare, .twoBallTakeaway:
+            // These configs still render the generic vector, which has nothing to pin.
+            return []
+        }
+    }
+}
+
+struct BucketHeroCalloutLayer: View {
+    let callouts: [BucketHeroCallout]
+
+    var body: some View {
+        GeometryReader { proxy in
+            let size = proxy.size
+
+            ForEach(callouts) { callout in
+                BucketHeroCalloutPin(callout: callout)
+                    .position(
+                        x: size.width * callout.unitPoint.x,
+                        y: size.height * callout.unitPoint.y
+                    )
+            }
+        }
+        .padding(18)
+        .allowsHitTesting(false)
+    }
+}
+
+struct BucketHeroCalloutPin: View {
+    let callout: BucketHeroCallout
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(GarageTheme.accentGreen.opacity(0.55), lineWidth: 1)
+                .frame(width: 18, height: 18)
+
+            Circle()
+                .fill(GarageTheme.accentGreen)
+                .frame(width: 7, height: 7)
+        }
+        .overlay(alignment: callout.chipSide == .trailing ? .leading : .trailing) {
+            HStack(spacing: 0) {
+                if callout.chipSide == .trailing {
+                    connector
+                    chip
+                } else {
+                    chip
+                    connector
+                }
+            }
+            .fixedSize()
+            .offset(x: callout.chipSide == .trailing ? 18 : -18)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(callout.label.capitalized)
+    }
+
+    private var connector: some View {
+        Rectangle()
+            .fill(GarageTheme.accentGreen.opacity(0.55))
+            .frame(width: 10, height: 1)
+    }
+
+    private var chip: some View {
+        Text(callout.label)
+            .font(.system(size: 10, weight: .heavy, design: .monospaced))
+            .tracking(0.8)
+            .foregroundStyle(.white.opacity(0.92))
+            .lineLimit(1)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(.black.opacity(0.55), in: Capsule())
+            .overlay {
+                Capsule()
+                    .stroke(GarageTheme.accentGreen.opacity(0.35), lineWidth: 1)
+            }
+    }
+}
+
+struct BucketHeroCaptionChip: View {
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(.white.opacity(0.94))
+            .lineLimit(2)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .stroke(.white.opacity(0.14), lineWidth: 1)
+            }
     }
 }
 

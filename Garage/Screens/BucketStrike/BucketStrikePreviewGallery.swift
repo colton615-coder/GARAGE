@@ -31,6 +31,17 @@ import SwiftUI
     .preferredColorScheme(.dark)
 }
 
+#Preview("Gallery — Hero Callouts") {
+    BucketPreviewCanvas {
+        BucketVisualizationWorkspace(
+            drill: BucketPreviewContent.manualDrill,
+            showsCallouts: true,
+            caption: BucketPreviewContent.manualDrill.primaryCueText
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
 #Preview("Gallery — Setup Card") {
     BucketPreviewCanvas {
         BucketSetupTeachingView(
