@@ -19,15 +19,15 @@ struct BucketSessionCompleteView: View {
 
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 18) {
                 VStack(alignment: .leading, spacing: 8) {
                     Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 36, weight: .bold))
+                        .font(.system(size: 30, weight: .bold))
                         .foregroundStyle(GarageTheme.accentGreen)
                         .accessibilityHidden(true)
 
                     Text("Session Complete")
-                        .font(.largeTitle.weight(.bold))
+                        .font(.system(size: 30, weight: .bold))
                         .foregroundStyle(.white)
                         .lineLimit(2)
                         .minimumScaleFactor(0.84)
@@ -48,10 +48,11 @@ struct BucketSessionCompleteView: View {
                 )
             }
             .padding(.horizontal, GarageTheme.pagePadding)
-            .padding(.top, 22)
-            .padding(.bottom, 96)
+            .padding(.top, 18)
+            .padding(.bottom, 82)
         }
         .scrollContentBackground(.hidden)
+        .scrollDismissesKeyboard(.interactively)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             Button {
                 finishReflection()
@@ -66,8 +67,8 @@ struct BucketSessionCompleteView: View {
             .controlSize(.large)
             .disabled(!canFinishReflection)
             .padding(.horizontal, GarageTheme.pagePadding)
-            .padding(.top, 10)
-            .padding(.bottom, 10)
+            .padding(.top, 8)
+            .padding(.bottom, 8)
             .background(.ultraThinMaterial)
         }
     }
@@ -157,4 +158,3 @@ struct BucketCarryForwardField: View {
         }
     }
 }
-

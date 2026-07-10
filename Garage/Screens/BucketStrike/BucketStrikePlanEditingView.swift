@@ -4,8 +4,10 @@ struct BucketEditPlanView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var draftPlan: BucketPracticePlan
     @State private var editMode: EditMode = .active
+    @State private var hasInitializedDraft = false
 
     let originalPlan: BucketPracticePlan
+    let currentPlan: BucketPracticePlan
     let onApply: (BucketPracticePlan) -> Void
 
     init(
@@ -14,6 +16,7 @@ struct BucketEditPlanView: View {
         onApply: @escaping (BucketPracticePlan) -> Void
     ) {
         self.originalPlan = originalPlan
+        self.currentPlan = currentPlan
         self.onApply = onApply
         _draftPlan = State(initialValue: currentPlan)
     }
@@ -49,13 +52,14 @@ struct BucketEditPlanView: View {
                     Label("Reset Plan", systemImage: "arrow.counterclockwise")
                         .font(.body.weight(.semibold))
                 }
-                .disabled(draftPlan.drills.map(\.id) == originalPlan.drills.map(\.id))
+                .disabled(!hasChanges)
             }
             .listRowBackground(GarageTheme.backgroundRaised)
         }
         .scrollContentBackground(.hidden)
         .background(GarageTheme.background.ignoresSafeArea())
         .environment(\.editMode, $editMode)
+        .onAppear(perform: initializeDraftIfNeeded)
         .navigationTitle("Edit Plan")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -78,12 +82,30 @@ struct BucketEditPlanView: View {
             .buttonStyle(.borderedProminent)
             .tint(GarageTheme.accentBlue)
             .controlSize(.large)
-            .disabled(draftPlan.drills.isEmpty)
+            .disabled(!hasChanges)
             .padding(.horizontal, GarageTheme.pagePadding)
             .padding(.top, 10)
             .padding(.bottom, 10)
             .background(.ultraThinMaterial)
         }
+    }
+
+    private var hasChanges: Bool {
+        planSignature(for: draftPlan) != planSignature(for: originalPlan)
+    }
+
+    private func planSignature(for plan: BucketPracticePlan) -> BucketPracticePlanSignature {
+        BucketPracticePlanSignature(
+            minutes: plan.minutes,
+            balls: plan.balls,
+            drillIDs: plan.drills.map(\.id)
+        )
+    }
+
+    private func initializeDraftIfNeeded() {
+        guard !hasInitializedDraft else { return }
+        draftPlan = currentPlan
+        hasInitializedDraft = true
     }
 
     private func moveDrills(from source: IndexSet, to destination: Int) {
@@ -112,6 +134,12 @@ struct BucketEditPlanView: View {
         onApply(draftPlan.replacingDrills(draftPlan.drills))
         dismiss()
     }
+}
+
+private struct BucketPracticePlanSignature: Equatable {
+    let minutes: Int
+    let balls: Int
+    let drillIDs: [String]
 }
 
 struct BucketEditSummary: View {

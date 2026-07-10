@@ -35,4 +35,30 @@ struct PracticePlanFactoryTests {
             #expect(drillIDs.isDisjoint(with: puttingOnlyDrillIDs))
         }
     }
+
+    @Test
+    func bucketStrikeStatePreviewUsesCuratedPlanUntilEdited() {
+        var state = BucketStrikeState()
+        let initialPlan = state.curatedPlan
+
+        #expect(!state.previewPlan.drills.isEmpty)
+        #expect(state.previewPlan.matchesPlanShape(of: initialPlan))
+
+        let editedPlan = initialPlan.replacingDrills(Array(initialPlan.drills.prefix(1)))
+        state.applyEditedPlan(editedPlan)
+
+        #expect(state.previewPlan.matchesPlanShape(of: editedPlan))
+
+        state.selectFocus(BucketSessionFocus.focuses(for: .range)[1])
+
+        #expect(state.previewPlan.matchesPlanShape(of: state.curatedPlan))
+    }
+}
+
+private extension BucketPracticePlan {
+    func matchesPlanShape(of otherPlan: BucketPracticePlan) -> Bool {
+        minutes == otherPlan.minutes
+            && balls == otherPlan.balls
+            && drills.map(\.id) == otherPlan.drills.map(\.id)
+    }
 }

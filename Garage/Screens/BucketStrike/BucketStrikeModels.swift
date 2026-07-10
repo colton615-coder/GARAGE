@@ -3,10 +3,7 @@ import SwiftUI
 struct BucketStrikeState {
     var selectedPracticeType: BucketPracticeType = .range
     var selectedFocus: BucketSessionFocus = BucketSessionFocus.focuses(for: .range)[0]
-    var previewPlan: BucketPracticePlan = BucketPracticePlan.makeDisplayPlan(
-        practiceType: .range,
-        focus: BucketSessionFocus.focuses(for: .range)[0]
-    )
+    private var editedPlan: BucketPracticePlan?
 
     var availableFocuses: [BucketSessionFocus] {
         BucketSessionFocus.focuses(for: selectedPracticeType)
@@ -14,6 +11,10 @@ struct BucketStrikeState {
 
     var curatedPlan: BucketPracticePlan {
         BucketPracticePlan.makeDisplayPlan(practiceType: selectedPracticeType, focus: selectedFocus)
+    }
+
+    var previewPlan: BucketPracticePlan {
+        editedPlan ?? curatedPlan
     }
 
     mutating func selectPracticeType(_ practiceType: BucketPracticeType) {
@@ -24,16 +25,16 @@ struct BucketStrikeState {
             selectedFocus = focuses[0]
         }
 
-        previewPlan = curatedPlan
+        editedPlan = nil
     }
 
     mutating func selectFocus(_ focus: BucketSessionFocus) {
         selectedFocus = focus
-        previewPlan = curatedPlan
+        editedPlan = nil
     }
 
     mutating func applyEditedPlan(_ plan: BucketPracticePlan) {
-        previewPlan = plan
+        editedPlan = plan
     }
 
 }
@@ -270,13 +271,19 @@ enum BucketDrillEnvironment: String {
     case shortGame = "Short Game"
 }
 
-enum BucketDrillVisualConfig {
+enum BucketDrillVisualConfig: String, Codable {
     case gatePutt
     case strikeSpray
     case stepSequence
     case distanceLadder
     case upDownChallenge
     case landingSpotClubCompare
+    case bunkerSplash
+    case puttingClock
+    case feetTogetherBalance
+    case shuffledShotRoutine
+    case twoClubTempoCompare
+    case twoBallTakeaway
 }
 
 struct BucketDrillVisualProfile: Identifiable {

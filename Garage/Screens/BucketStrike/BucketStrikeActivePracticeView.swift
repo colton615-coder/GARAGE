@@ -5,6 +5,8 @@ struct BucketActivePracticeView: View {
     @State private var session: BucketActiveSessionState
     @State private var isEndSessionConfirmationPresented = false
     @State private var isInstructionPanelPresented = false
+    @State private var isResultEntryPresented = false
+    @State private var pendingSucceeded = 0
     @State private var presentationPhase: BucketActivePresentationPhase = .setup
 
     init(plan: BucketPracticePlan) {
@@ -41,6 +43,16 @@ struct BucketActivePracticeView: View {
         } message: {
             Text("This will leave the active practice flow without saving a session result.")
         }
+        .sheet(isPresented: $isResultEntryPresented) {
+            BucketResultEntryView(
+                drill: session.currentDrill,
+                succeeded: $pendingSucceeded,
+                isFinalDrill: session.isFinalDrill,
+                onConfirm: confirmCurrentResult
+            )
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+        }
     }
 
     private var activeContent: some View {
@@ -59,8 +71,9 @@ struct BucketActivePracticeView: View {
                     phaseContent
                 }
                 .padding(.horizontal, 16)
-                .padding(.bottom, 104)
+                .padding(.bottom, 28)
             }
+            .id(session.currentDrill.id)
             .scrollContentBackground(.hidden)
 
             if isInstructionPanelPresented {
@@ -76,10 +89,6 @@ struct BucketActivePracticeView: View {
         .animation(.spring(response: 0.34, dampingFraction: 0.88), value: presentationPhase)
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             session.tickCurrentTimer()
-            if presentationPhase == .active,
-               session.currentExecutionState.timedStatus == .completed {
-                presentationPhase = .drillComplete
-            }
         }
         .onDisappear {
             session.stopAllTimers()
@@ -103,14 +112,8 @@ struct BucketActivePracticeView: View {
                 state: session.currentExecutionState,
                 canGoPrevious: session.canGoPrevious,
                 isFinalDrill: session.isFinalDrill,
-                onStartTimer: { session.startCurrentTimer() },
-                onPauseTimer: { session.pauseCurrentTimer() },
-                onResetTimer: { session.resetCurrentTimer() },
-                onIncrementReps: recordManualSuccess,
-                onDecrementReps: { session.decrementCurrentReps() },
-                onResetReps: { session.resetCurrentReps() },
                 onPrevious: moveToPreviousDrill,
-                onComplete: { presentationPhase = .drillComplete },
+                onLogResult: presentResultEntry,
                 onShowIntel: { isInstructionPanelPresented = true }
             )
         case .drillComplete:
@@ -150,12 +153,20 @@ struct BucketActivePracticeView: View {
         presentationPhase = .active
     }
 
-    private func recordManualSuccess() {
-        session.incrementCurrentReps()
-        guard let targetReps = session.currentDrill.executionConfiguration.targetReps else { return }
-        if session.currentExecutionState.repCount >= targetReps {
-            presentationPhase = .drillComplete
-        }
+    private func presentResultEntry() {
+        pendingSucceeded = session.currentExecutionState.succeeded > 0
+            ? session.currentExecutionState.succeeded
+            : session.currentExecutionState.target
+        isResultEntryPresented = true
+    }
+
+    private func confirmCurrentResult() {
+        session.captureCurrentResult(
+            succeeded: pendingSucceeded,
+            attempted: session.currentExecutionState.target
+        )
+        isResultEntryPresented = false
+        presentationPhase = .drillComplete
     }
 
     private func moveToPreviousDrill() {
@@ -194,48 +205,50 @@ struct BucketActiveTopBar: View {
     private var subtitle: String {
         switch phase {
         case .setup:
-            "Read the task, then execute."
+            session.currentDrill.primaryCueText
         case .active:
             session.currentDrill.compactExecutionText
         case .drillComplete:
-            "Nice work."
+            session.currentDrill.carryForwardText
         case .nextDrillPreview:
-            "Preview the next task before tracking."
+            session.currentDrill.primaryCueText
         }
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .center, spacing: 14) {
                 Button(action: onEnd) {
-                    Text("End")
-                        .font(.headline.weight(.semibold))
+                    Label("End", systemImage: "xmark")
+                        .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.red.opacity(0.92))
-                        .frame(width: 96, height: 54)
-                        .background(.black.opacity(0.18))
+                        .frame(width: 78, height: 42)
+                        .background(.black.opacity(0.12))
                         .clipShape(Capsule())
                         .overlay {
                             Capsule()
-                                .stroke(.white.opacity(0.18), lineWidth: 1)
+                                .stroke(.white.opacity(0.12), lineWidth: 1)
                         }
                 }
                 .buttonStyle(.plain)
 
                 Image(systemName: phase == .drillComplete ? "checkmark.circle" : "target")
-                    .font(.system(size: 34, weight: .semibold))
+                    .font(.system(size: 24, weight: .semibold))
                     .foregroundStyle(GarageTheme.accentGreen)
-                    .frame(width: 48, height: 48)
+                    .frame(width: 34, height: 34)
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text(eyebrow)
-                        .font(.system(size: 26, weight: .heavy, design: .monospaced))
+                        .font(.system(size: 15, weight: .heavy, design: .monospaced))
+                        .tracking(0.9)
                         .foregroundStyle(.white)
                         .fixedSize(horizontal: false, vertical: true)
 
                     Text(subtitle)
-                        .font(.headline.weight(.medium))
-                        .foregroundStyle(GarageTheme.accentGreen)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(GarageTheme.textSecondary)
+                        .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -310,7 +323,7 @@ struct BucketFloatingActiveHeader: View {
                 .scaleEffect(x: 1, y: 0.72, anchor: .center)
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .padding(.vertical, 10)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
@@ -328,52 +341,84 @@ struct BucketSetupTeachingView: View {
     let onShowIntel: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            BucketVisualizationWorkspace(drill: drill)
-                .frame(maxWidth: .infinity)
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(alignment: .top, spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Preflight \(drillNumber)/\(drillCount)")
+                        .font(.caption.weight(.bold))
+                        .tracking(1.4)
+                        .textCase(.uppercase)
+                        .foregroundStyle(GarageTheme.accentGreen)
 
-            VStack(alignment: .leading, spacing: 10) {
-                Text("STEP \(drillNumber) OF \(drillCount)")
-                    .font(.system(size: 14, weight: .heavy, design: .monospaced))
-                    .tracking(1.2)
-                    .foregroundStyle(GarageTheme.accentGreen)
+                    Text(drill.setupTitle)
+                        .font(.title2.weight(.bold))
+                        .foregroundStyle(.white)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
-                Text(drill.setupTitle)
-                    .font(.system(size: 36, weight: .heavy, design: .monospaced))
-                    .foregroundStyle(.white)
-                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 12)
 
-                Text(drill.setupInstructionText)
-                    .font(.title3.weight(.regular))
-                    .foregroundStyle(.white.opacity(0.84))
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
+                Button(action: onShowIntel) {
+                    Image(systemName: "info.circle")
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(GarageTheme.accentGreen)
+                        .frame(width: 42, height: 42)
+                        .background(.white.opacity(0.045), in: Circle())
+                        .overlay {
+                            Circle()
+                                .stroke(GarageTheme.border, lineWidth: 1)
+                        }
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Drill Intel")
             }
 
-            BucketTeachingMetadataGrid(drill: drill)
+            Text(drill.goalText)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(GarageTheme.textSecondary)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
 
-            if let whyText = drill.whyItMattersText {
-                BucketEditorialTeachingBlock(
-                    title: "Why It Matters",
-                    text: whyText,
-                    symbolName: "lightbulb"
-                )
+            VStack(spacing: 10) {
+                ForEach(drill.setupStepTexts.prefix(3), id: \.self) { step in
+                    HStack(alignment: .top, spacing: 10) {
+                        Image(systemName: "checkmark")
+                            .font(.caption.weight(.heavy))
+                            .foregroundStyle(GarageTheme.accentGreen)
+                            .frame(width: 18, height: 18)
+                            .accessibilityHidden(true)
+
+                        Text(step)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.white.opacity(0.82))
+                            .fixedSize(horizontal: false, vertical: true)
+
+                        Spacer(minLength: 0)
+                    }
+                }
             }
 
-            BucketPrimaryCapsuleButton(
-                title: drill.startButtonTitle,
-                symbolName: "play.circle",
-                action: onStart
-            )
-
-            BucketSecondaryCapsuleButton(
-                title: "Drill Intel",
-                symbolName: "info.circle",
-                action: onShowIntel
-            )
+            Button(action: onStart) {
+                Label(drill.startButtonTitle, systemImage: "play.fill")
+                    .font(.headline.weight(.bold))
+                    .foregroundStyle(.black.opacity(0.86))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background(GarageTheme.accentGreen)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
         }
-        .padding(24)
-        .background(BucketActiveSurface())
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(GarageTheme.panelFill)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(GarageTheme.border, lineWidth: 1)
+                )
+        )
     }
 }
 
@@ -382,68 +427,154 @@ struct BucketActiveExecutionView: View {
     let state: BucketDrillExecutionState
     let canGoPrevious: Bool
     let isFinalDrill: Bool
-    let onStartTimer: () -> Void
-    let onPauseTimer: () -> Void
-    let onResetTimer: () -> Void
-    let onIncrementReps: () -> Void
-    let onDecrementReps: () -> Void
-    let onResetReps: () -> Void
     let onPrevious: () -> Void
-    let onComplete: () -> Void
+    let onLogResult: () -> Void
     let onShowIntel: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            BucketVisualizationWorkspace(drill: drill)
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(drill.displayTitle)
+                    .font(.system(size: 24, weight: .heavy, design: .monospaced))
+                    .foregroundStyle(.white)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text(drill.compactExecutionText)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(GarageTheme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
             BucketEditorialTeachingBlock(
-                title: "Do This",
-                text: drill.compactExecutionText,
-                symbolName: "scope"
+                title: "Target",
+                text: "Target: \(state.target)",
+                symbolName: "number.circle"
             )
 
             BucketEditorialTeachingBlock(
                 title: "Focus",
-                text: drill.focusText,
+                text: drill.primaryCueText,
                 symbolName: "target"
             )
 
-            BucketDrillExecutionTracker(
-                drill: drill,
-                state: state,
-                onStartTimer: onStartTimer,
-                onPauseTimer: onPauseTimer,
-                onResetTimer: onResetTimer,
-                onIncrementReps: onIncrementReps,
-                onDecrementReps: onDecrementReps,
-                onResetReps: onResetReps
+            BucketPrimaryCapsuleButton(
+                title: "Log Result",
+                symbolName: "square.and.pencil",
+                action: onLogResult
             )
 
-            VStack(spacing: 10) {
-                HStack(spacing: 10) {
-                    BucketSecondaryCapsuleButton(
-                        title: "Previous Drill",
-                        symbolName: "chevron.left",
-                        isEnabled: canGoPrevious,
-                        action: onPrevious
-                    )
+            HStack(spacing: 10) {
+                BucketQuietCapsuleButton(
+                    title: "Previous",
+                    symbolName: "chevron.left",
+                    isEnabled: canGoPrevious,
+                    action: onPrevious
+                )
 
-                    BucketSecondaryCapsuleButton(
-                        title: "Drill Intel",
-                        symbolName: "info.circle",
-                        action: onShowIntel
-                    )
-                }
-
-                BucketSecondaryCapsuleButton(
-                    title: isFinalDrill ? "Finish Drill" : "Complete Drill",
-                    symbolName: isFinalDrill ? "checkmark.circle" : "arrow.right.circle",
-                    action: onComplete
+                BucketQuietCapsuleButton(
+                    title: "Intel",
+                    symbolName: "info.circle",
+                    action: onShowIntel
                 )
             }
         }
-        .padding(24)
+        .padding(18)
         .background(BucketActiveSurface())
+    }
+}
+
+struct BucketResultEntryView: View {
+    let drill: BucketPlanDrill
+    @Binding var succeeded: Int
+    let isFinalDrill: Bool
+    let onConfirm: () -> Void
+
+    private var target: Int {
+        drill.resultTarget
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Log Result")
+                    .font(.system(size: 24, weight: .heavy, design: .monospaced))
+                    .foregroundStyle(.white)
+
+                Text(drill.displayTitle)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(GarageTheme.textSecondary)
+                    .lineLimit(2)
+            }
+
+            VStack(alignment: .leading, spacing: 12) {
+                Text(drill.resultSuccessLabel)
+                    .font(.caption.weight(.bold))
+                    .tracking(1.2)
+                    .textCase(.uppercase)
+                    .foregroundStyle(GarageTheme.accentGreen)
+
+                HStack(alignment: .center, spacing: 14) {
+                    resultStepButton(symbolName: "minus") {
+                        succeeded = max(0, succeeded - 1)
+                    }
+                    .disabled(succeeded <= 0)
+
+                    VStack(spacing: 2) {
+                        Text("\(succeeded)")
+                            .font(.system(size: 64, weight: .bold, design: .rounded))
+                            .foregroundStyle(.white)
+                            .monospacedDigit()
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+
+                        Text("of \(target)")
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(GarageTheme.textSecondary)
+                    }
+                    .frame(maxWidth: .infinity)
+
+                    resultStepButton(symbolName: "plus") {
+                        succeeded = min(target, succeeded + 1)
+                    }
+                    .disabled(succeeded >= target)
+                }
+
+                Stepper(
+                    value: $succeeded,
+                    in: 0...target,
+                    step: 1
+                ) {
+                    Text(drill.resultSuccessLabel)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.84))
+                }
+            }
+            .padding(16)
+            .background(BucketActiveSurface())
+
+            BucketPrimaryCapsuleButton(
+                title: isFinalDrill ? "Finish Drill" : "Next Drill",
+                symbolName: isFinalDrill ? "checkmark.circle" : "arrow.right.circle",
+                action: onConfirm
+            )
+        }
+        .padding(18)
+        .background(GarageTheme.background.ignoresSafeArea())
+        .onAppear {
+            succeeded = min(max(0, succeeded), target)
+        }
+    }
+
+    private func resultStepButton(symbolName: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: symbolName)
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(.black.opacity(0.84))
+                .frame(width: 72, height: 72)
+                .background(GarageTheme.accentGreen)
+                .clipShape(Circle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -458,38 +589,32 @@ struct BucketDrillCompleteView: View {
         switch drill.executionConfiguration.mode {
         case .manualReps:
             if let visualProfile = drill.visualProfile {
-                if let target = drill.executionConfiguration.targetReps {
-                    return "\(state.repCount) of \(target) \(visualProfile.trackerLabel.lowercased()) recorded."
-                }
-                return "\(state.repCount) \(visualProfile.trackerLabel.lowercased()) recorded."
+                return "\(state.succeeded) of \(state.attempted) \(visualProfile.trackerLabel.lowercased()) recorded."
             }
 
-            if let target = drill.executionConfiguration.targetReps {
-                return "\(state.repCount) of \(target) recorded."
-            }
-            return "\(state.repCount) reps recorded."
+            return "\(state.succeeded) of \(state.attempted) recorded."
         case .timed:
             let elapsed = state.elapsedSeconds
             if let visualProfile = drill.visualProfile {
-                return "\(elapsed / 60):\(String(format: "%02d", elapsed % 60)) \(visualProfile.trackerLabel.lowercased()) completed."
+                return "\(state.succeeded) of \(state.attempted) \(visualProfile.trackerLabel.lowercased()) recorded in \(elapsed / 60):\(String(format: "%02d", elapsed % 60))."
             }
-            return "\(elapsed / 60):\(String(format: "%02d", elapsed % 60)) completed."
+            return "\(state.succeeded) of \(state.attempted) recorded in \(elapsed / 60):\(String(format: "%02d", elapsed % 60))."
         case .openPractice:
-            return "Drill marked complete."
+            return "\(state.succeeded) of \(state.attempted) recorded."
         }
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .center, spacing: 12) {
                 Image(systemName: "checkmark.circle")
-                    .font(.system(size: 42, weight: .semibold))
+                    .font(.system(size: 34, weight: .semibold))
                     .foregroundStyle(GarageTheme.accentGreen)
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Drill Complete")
-                        .font(.system(size: 28, weight: .heavy, design: .monospaced))
+                        .font(.system(size: 24, weight: .heavy, design: .monospaced))
                         .foregroundStyle(.white)
 
                     Text(completionText)
@@ -502,15 +627,15 @@ struct BucketDrillCompleteView: View {
                 .overlay(GarageTheme.divider)
 
             BucketEditorialTeachingBlock(
-                title: "Recap",
-                text: drill.completionRecapText,
-                symbolName: "trophy"
-            )
-
-            BucketEditorialTeachingBlock(
                 title: "Carry Forward",
                 text: drill.carryForwardText,
                 symbolName: "arrow.forward.circle"
+            )
+
+            BucketEditorialTeachingBlock(
+                title: "Recap",
+                text: drill.completionRecapText,
+                symbolName: "trophy"
             )
 
             BucketPrimaryCapsuleButton(
@@ -525,7 +650,7 @@ struct BucketDrillCompleteView: View {
                 action: onReview
             )
         }
-        .padding(24)
+        .padding(18)
         .background(BucketActiveSurface())
     }
 }
@@ -539,7 +664,7 @@ struct BucketNextDrillPreviewView: View {
     let onReviewSetup: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 16) {
             if let previousDrill {
                 HStack(spacing: 12) {
                     Image(systemName: "checkmark.circle")
@@ -561,20 +686,22 @@ struct BucketNextDrillPreviewView: View {
                     .foregroundStyle(GarageTheme.accentGreen)
 
                 Text(drill.displayTitle)
-                    .font(.system(size: 36, weight: .heavy, design: .monospaced))
+                    .font(.system(size: 30, weight: .heavy, design: .monospaced))
                     .foregroundStyle(.white)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            BucketVisualizationWorkspace(drill: drill)
+            BucketEditorialTeachingBlock(
+                title: "Setup",
+                text: drill.setupStepTexts.joined(separator: " "),
+                symbolName: "list.bullet"
+            )
 
-            Text(drill.setupInstructionText)
-                .font(.title3.weight(.regular))
-                .foregroundStyle(.white.opacity(0.84))
-                .lineSpacing(5)
-                .fixedSize(horizontal: false, vertical: true)
-
-            BucketTeachingMetadataGrid(drill: drill)
+            BucketEditorialTeachingBlock(
+                title: "Cue",
+                text: drill.primaryCueText,
+                symbolName: "target"
+            )
 
             BucketPrimaryCapsuleButton(
                 title: "Start Drill \(drillNumber)",
@@ -588,8 +715,29 @@ struct BucketNextDrillPreviewView: View {
                 action: onReviewSetup
             )
         }
-        .padding(24)
+        .padding(18)
         .background(BucketActiveSurface())
+    }
+}
+
+struct BucketNumberedSetupStep: View {
+    let number: Int
+    let text: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 11) {
+            Text("\(number)")
+                .font(.caption.weight(.heavy))
+                .foregroundStyle(.black.opacity(0.82))
+                .frame(width: 24, height: 24)
+                .background(GarageTheme.accentGreen)
+                .clipShape(Circle())
+
+            Text(text)
+                .font(.body.weight(.medium))
+                .foregroundStyle(.white.opacity(0.84))
+                .fixedSize(horizontal: false, vertical: true)
+        }
     }
 }
 
@@ -748,6 +896,69 @@ struct BucketSecondaryCapsuleButton: View {
     }
 }
 
+struct BucketQuietCapsuleButton: View {
+    let title: String
+    let symbolName: String
+    var isEnabled = true
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: symbolName)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(isEnabled ? .white.opacity(0.72) : GarageTheme.textSecondary.opacity(0.45))
+                .frame(maxWidth: .infinity)
+                .frame(height: 42)
+                .background(.white.opacity(isEnabled ? 0.045 : 0.025))
+                .clipShape(Capsule())
+                .overlay {
+                    Capsule()
+                        .stroke(GarageTheme.border, lineWidth: 1)
+                }
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled)
+    }
+}
+
+extension BucketPlanDrill {
+    var setupStepTexts: [String] {
+        if let visualProfile {
+            return [visualProfile.setupInstruction, visualProfile.secondaryInstruction, visualProfile.equipment]
+                .compactMap { $0 }
+                .filter { !$0.isEmpty }
+                .prefix(3)
+                .map { $0 }
+        }
+
+        return ([setup] + steps)
+            .filter { !$0.isEmpty }
+            .prefix(3)
+            .map { $0 }
+    }
+
+    var primaryCueText: String {
+        let cue = focusText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return cue.isEmpty ? compactExecutionText : cue
+    }
+
+    var resultTarget: Int {
+        executionConfiguration.targetReps ?? 10
+    }
+
+    var resultSuccessLabel: String {
+        let title = successActionTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !title.isEmpty else { return "Clean reps" }
+
+        let words = title.split(separator: " ")
+        guard let lastWord = words.last else { return "Clean reps" }
+        let prefix = words.dropLast().joined(separator: " ")
+        let pluralLastWord = lastWord.lowercased().hasSuffix("s") ? String(lastWord) : "\(lastWord)s"
+        let pluralized = prefix.isEmpty ? pluralLastWord : "\(prefix) \(pluralLastWord)"
+        return pluralized.prefix(1).uppercased() + pluralized.dropFirst().lowercased()
+    }
+}
+
 struct BucketActivePracticeCard: View {
     let drill: BucketPlanDrill
     let state: BucketDrillExecutionState
@@ -756,9 +967,6 @@ struct BucketActivePracticeCard: View {
     let onStartTimer: () -> Void
     let onPauseTimer: () -> Void
     let onResetTimer: () -> Void
-    let onIncrementReps: () -> Void
-    let onDecrementReps: () -> Void
-    let onResetReps: () -> Void
     @Binding var isInstructionPanelPresented: Bool
     let onPrevious: () -> Void
     let onAdvance: () -> Void
@@ -774,10 +982,7 @@ struct BucketActivePracticeCard: View {
                 state: state,
                 onStartTimer: onStartTimer,
                 onPauseTimer: onPauseTimer,
-                onResetTimer: onResetTimer,
-                onIncrementReps: onIncrementReps,
-                onDecrementReps: onDecrementReps,
-                onResetReps: onResetReps
+                onResetTimer: onResetTimer
             )
 
             BucketActiveActionBar(

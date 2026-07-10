@@ -107,6 +107,28 @@ struct Drill: Codable, Identifiable, Hashable {
     let goal: String
     let visualConcept: String
     let rationale: String
+    var featured: Bool = false
+}
+
+extension Drill {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        version = try container.decode(Int.self, forKey: .version)
+        category = try container.decode(Category.self, forKey: .category)
+        environments = try container.decode([PracticeEnvironment].self, forKey: .environments)
+        focuses = try container.decode([Focus].self, forKey: .focuses)
+        type = try container.decode(DrillType.self, forKey: .type)
+        purpose = try container.decode(String.self, forKey: .purpose)
+        setup = try container.decode(String.self, forKey: .setup)
+        steps = try container.decode([String].self, forKey: .steps)
+        cue = try container.decode(String.self, forKey: .cue)
+        goal = try container.decode(String.self, forKey: .goal)
+        visualConcept = try container.decode(String.self, forKey: .visualConcept)
+        rationale = try container.decode(String.self, forKey: .rationale)
+        featured = try container.decodeIfPresent(Bool.self, forKey: .featured) ?? false
+    }
 }
 
 struct DrillLibrary {
@@ -116,14 +138,20 @@ struct DrillLibrary {
         allDrills = Self.loadDrills(bundle: bundle, resourceName: resourceName)
     }
 
+    /// The drills eligible to be served anywhere in the app. Non-featured drills
+    /// stay in `allDrills` but are dormant until their `featured` flag is flipped.
+    var featuredDrills: [Drill] {
+        allDrills.filter(\.featured)
+    }
+
     func drills(environment: PracticeEnvironment) -> [Drill] {
-        allDrills.filter { drill in
+        featuredDrills.filter { drill in
             drill.environments.contains(environment)
         }
     }
 
     func drills(environment: PracticeEnvironment, focus: Focus) -> [Drill] {
-        allDrills.filter { drill in
+        featuredDrills.filter { drill in
             drill.environments.contains(environment) && drill.focuses.contains(focus)
         }
     }

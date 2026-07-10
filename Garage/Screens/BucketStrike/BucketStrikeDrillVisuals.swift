@@ -51,6 +51,9 @@ struct BucketDrillVisualFamilyView: View {
                 BucketUpDownChallengeVisual()
             case .landingSpotClubCompare:
                 BucketLandingSpotClubCompareVisual()
+            case .bunkerSplash, .puttingClock, .feetTogetherBalance, .shuffledShotRoutine, .twoClubTempoCompare, .twoBallTakeaway:
+                // Dedicated visuals for these configs are intentionally pending.
+                BucketGenericPracticeVector()
             }
         }
         .overlay(alignment: .topLeading) {

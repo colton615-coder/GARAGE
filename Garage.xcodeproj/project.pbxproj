@@ -10,6 +10,7 @@
 		9CE096B52FFDA78A00FC79DD /* PracticePlanValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */; };
 		9CE096B62FFDA78A00FC79DD /* PracticePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */; };
 		9CE096B82FFDB1D500FC79DD /* PracticePlanFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */; };
+		9CE096CC2FFE159900FC79DD /* BucketStrikePreviewGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE096CB2FFE159900FC79DD /* BucketStrikePreviewGallery.swift */; };
 		9CF09DAA2FFC973A00D0C856 /* DrillLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF09DA92FFC973A00D0C856 /* DrillLibrary.swift */; };
 		9CF09DAC2FFC974500D0C856 /* drills.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CF09DAB2FFC974500D0C856 /* drills.json */; };
 		AA0000000000000000000001 /* GarageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* GarageApp.swift */; };
@@ -46,6 +47,7 @@
 		9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PracticePlanValidator.swift; path = ../../Models/BucketStrike/PracticePlanValidator.swift; sourceTree = "<group>"; };
 		9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticePlanFactory.swift; sourceTree = "<group>"; };
 		9CE096BD2FFDB70E00FC79DD /* GarageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GarageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CE096CB2FFE159900FC79DD /* BucketStrikePreviewGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketStrikePreviewGallery.swift; sourceTree = "<group>"; };
 		9CF09DA92FFC973A00D0C856 /* DrillLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillLibrary.swift; sourceTree = "<group>"; };
 		9CF09DAB2FFC974500D0C856 /* drills.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = drills.json; sourceTree = "<group>"; };
 		BB0000000000000000000001 /* GarageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarageApp.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				9CE096B32FFDA78A00FC79DD /* PracticePlan.swift */,
 				9CE096B42FFDA78A00FC79DD /* PracticePlanValidator.swift */,
 				9CE096B72FFDB1D500FC79DD /* PracticePlanFactory.swift */,
+				9CE096CB2FFE159900FC79DD /* BucketStrikePreviewGallery.swift */,
 			);
 			path = BucketStrike;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				AA0000000000000000000012 /* BucketStrikeDrillCatalogs.swift in Sources */,
 				AA0000000000000000000013 /* BucketStrikeSessionState.swift in Sources */,
 				9CE096B82FFDB1D500FC79DD /* PracticePlanFactory.swift in Sources */,
+				9CE096CC2FFE159900FC79DD /* BucketStrikePreviewGallery.swift in Sources */,
 				AA0000000000000000000014 /* BucketStrikeActivePracticeView.swift in Sources */,
 				9CE096B52FFDA78A00FC79DD /* PracticePlanValidator.swift in Sources */,
 				9CE096B62FFDA78A00FC79DD /* PracticePlan.swift in Sources */,

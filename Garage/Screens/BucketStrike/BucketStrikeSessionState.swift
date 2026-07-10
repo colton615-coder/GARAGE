@@ -22,7 +22,15 @@ enum BucketTimedExecutionStatus: Equatable {
 struct BucketDrillExecutionState {
     var elapsedSeconds = 0
     var timedStatus: BucketTimedExecutionStatus = .idle
-    var repCount = 0
+    let target: Int
+    private(set) var attempted: Int
+    private(set) var succeeded: Int
+
+    init(target: Int = 0, attempted: Int? = nil, succeeded: Int = 0) {
+        self.target = max(0, target)
+        self.attempted = max(0, attempted ?? target)
+        self.succeeded = min(max(0, succeeded), self.attempted)
+    }
 
     mutating func startTimer(durationSeconds: Int) {
         guard elapsedSeconds < durationSeconds else {
@@ -57,16 +65,10 @@ struct BucketDrillExecutionState {
         }
     }
 
-    mutating func incrementReps() {
-        repCount += 1
-    }
-
-    mutating func decrementReps() {
-        repCount = max(0, repCount - 1)
-    }
-
-    mutating func resetReps() {
-        repCount = 0
+    mutating func captureResult(succeeded: Int, attempted: Int? = nil) {
+        let finalAttempted = max(0, attempted ?? target)
+        self.attempted = finalAttempted
+        self.succeeded = min(max(0, succeeded), finalAttempted)
     }
 }
 
@@ -102,29 +104,39 @@ struct BucketActiveSessionState {
     }
 
     var currentExecutionState: BucketDrillExecutionState {
-        executionStates[currentDrill.id] ?? BucketDrillExecutionState()
+        executionStates[currentDrill.id] ?? makeExecutionState(for: currentDrill)
     }
 
     mutating func startCurrentTimer() {
-        guard let durationSeconds = currentDrill.executionConfiguration.durationSeconds else { return }
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].startTimer(durationSeconds: durationSeconds)
+        let drill = currentDrill
+        guard let durationSeconds = drill.executionConfiguration.durationSeconds else { return }
+        let defaultState = makeExecutionState(for: drill)
+        executionStates[drill.id, default: defaultState].startTimer(durationSeconds: durationSeconds)
     }
 
     mutating func pauseCurrentTimer() {
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].pauseTimer()
+        let drill = currentDrill
+        let defaultState = makeExecutionState(for: drill)
+        executionStates[drill.id, default: defaultState].pauseTimer()
     }
 
     mutating func resetCurrentTimer() {
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].resetTimer()
+        let drill = currentDrill
+        let defaultState = makeExecutionState(for: drill)
+        executionStates[drill.id, default: defaultState].resetTimer()
     }
 
     mutating func tickCurrentTimer() {
-        guard let durationSeconds = currentDrill.executionConfiguration.durationSeconds else { return }
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].tickTimer(durationSeconds: durationSeconds)
+        let drill = currentDrill
+        guard let durationSeconds = drill.executionConfiguration.durationSeconds else { return }
+        let defaultState = makeExecutionState(for: drill)
+        executionStates[drill.id, default: defaultState].tickTimer(durationSeconds: durationSeconds)
     }
 
     mutating func stopCurrentTimer() {
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].stopTimer()
+        let drill = currentDrill
+        let defaultState = makeExecutionState(for: drill)
+        executionStates[drill.id, default: defaultState].stopTimer()
     }
 
     mutating func stopAllTimers() {
@@ -133,16 +145,13 @@ struct BucketActiveSessionState {
         }
     }
 
-    mutating func incrementCurrentReps() {
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].incrementReps()
-    }
-
-    mutating func decrementCurrentReps() {
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].decrementReps()
-    }
-
-    mutating func resetCurrentReps() {
-        executionStates[currentDrill.id, default: BucketDrillExecutionState()].resetReps()
+    mutating func captureCurrentResult(succeeded: Int, attempted: Int? = nil) {
+        let drill = currentDrill
+        let defaultState = makeExecutionState(for: drill)
+        executionStates[drill.id, default: defaultState].captureResult(
+            succeeded: succeeded,
+            attempted: attempted
+        )
     }
 
     mutating func previousDrill() {
@@ -158,5 +167,9 @@ struct BucketActiveSessionState {
         } else {
             currentDrillIndex += 1
         }
+    }
+
+    private func makeExecutionState(for drill: BucketPlanDrill) -> BucketDrillExecutionState {
+        BucketDrillExecutionState(target: drill.resultTarget)
     }
 }

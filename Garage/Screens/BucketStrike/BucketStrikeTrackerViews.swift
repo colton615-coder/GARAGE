@@ -77,34 +77,26 @@ struct BucketInstructionOverlaySheet: View {
     }
 
     private var setupText: String {
-        if let visualProfile = drill.visualProfile {
-            return visualProfile.setupCopy
-        }
-
         if let spec = drill.executionFlowSpec,
            let setup = spec.steps.first(where: { $0.id == .setup }) {
             return setup.activeState
         }
 
-        return content.setup.joined(separator: " ")
+        return drill.setupStepTexts.joined(separator: " ")
     }
 
     private var cueText: String {
-        if let visualProfile = drill.visualProfile {
-            return visualProfile.focus
-        }
-
         if let spec = drill.executionFlowSpec,
            let cue = spec.steps.first(where: { $0.id == .cue }) {
             return cue.activeState
         }
 
-        return content.cues.joined(separator: " ")
+        return drill.primaryCueText
     }
 
-    private var trackText: String {
-        if let visualProfile = drill.visualProfile {
-            return "\(visualProfile.executionCommand) Tracker: \(visualProfile.trackerLabel)."
+    private var trackText: String? {
+        if drill.executionConfiguration.mode == .timed {
+            return nil
         }
 
         if let spec = drill.executionFlowSpec,
@@ -112,7 +104,11 @@ struct BucketInstructionOverlaySheet: View {
             return track.activeState
         }
 
-        return content.goal
+        if drill.executionConfiguration.mode == .manualReps {
+            return drill.goalText
+        }
+
+        return nil
     }
 
     var body: some View {
@@ -142,12 +138,13 @@ struct BucketInstructionOverlaySheet: View {
                     .accessibilityLabel("Close drill instructions")
                 }
 
-                HStack(alignment: .top, spacing: 10) {
-                    BucketInstructionPod(title: "Setup", text: setupText, accent: GarageTheme.textSecondary)
-                    BucketInstructionPod(title: "Cue", text: cueText, accent: GarageTheme.accentGreen)
-                }
+                BucketInstructionPod(title: "Setup", text: setupText, accent: GarageTheme.textSecondary, minHeight: 86)
 
-                BucketInstructionPod(title: "Track", text: trackText, accent: GarageTheme.accentBlue)
+                BucketInstructionPod(title: "Cue", text: cueText, accent: GarageTheme.accentGreen)
+
+                if let trackText {
+                    BucketInstructionPod(title: "Track", text: trackText, accent: GarageTheme.accentBlue)
+                }
             }
             .padding(14)
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
@@ -192,6 +189,7 @@ struct BucketInstructionPod: View {
     let title: String
     let text: String
     let accent: Color
+    var minHeight: CGFloat?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -208,7 +206,7 @@ struct BucketInstructionPod: View {
         }
         .padding(.vertical, 9)
         .padding(.horizontal, 10)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .leading)
         .background(.white.opacity(0.035))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay {
@@ -224,9 +222,6 @@ struct BucketDrillExecutionTracker: View {
     let onStartTimer: () -> Void
     let onPauseTimer: () -> Void
     let onResetTimer: () -> Void
-    let onIncrementReps: () -> Void
-    let onDecrementReps: () -> Void
-    let onResetReps: () -> Void
 
     private var configuration: BucketDrillExecutionConfiguration {
         drill.executionConfiguration
@@ -237,7 +232,7 @@ struct BucketDrillExecutionTracker: View {
         case .timed:
             timedTracker
         case .manualReps:
-            manualRepTracker
+            openPracticeTracker
         case .openPractice:
             openPracticeTracker
         }
@@ -256,12 +251,12 @@ struct BucketDrillExecutionTracker: View {
                 }
 
                 Text(formattedTime(remainingSeconds))
-                    .font(.system(size: 48, weight: .bold, design: .rounded))
+                    .font(.system(size: 64, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                     .monospacedDigit()
                     .lineLimit(1)
                     .minimumScaleFactor(0.74)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .center)
 
                 HStack(alignment: .center, spacing: 10) {
                     if state.timedStatus == .running {
@@ -271,50 +266,6 @@ struct BucketDrillExecutionTracker: View {
                     }
 
                     secondaryTrackerButton("Reset", symbolName: "arrow.counterclockwise", action: onResetTimer)
-                }
-            }
-        }
-    }
-
-    private var manualRepTracker: some View {
-        let profileLabel = drill.visualProfile?.trackerLabel
-        let targetText = configuration.targetReps.map { target in
-            if let profileLabel {
-                return "\(profileLabel) • Target \(target)"
-            }
-
-            return "Target \(target)"
-        } ?? (profileLabel ?? "No target")
-
-        return trackerSurface(accent: GarageTheme.accentGreen) {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(alignment: .center, spacing: 10) {
-                    trackerModeLabel("Live Tracker", symbolName: "plus.forwardslash.minus", color: GarageTheme.accentGreen)
-                    Spacer(minLength: 12)
-                    Text(targetText)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(GarageTheme.textSecondary)
-                        .lineLimit(1)
-                }
-
-                HStack(alignment: .lastTextBaseline, spacing: 8) {
-                    Text("\(state.repCount)")
-                        .font(.system(size: 52, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
-                        .monospacedDigit()
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.75)
-
-                    Text("recorded")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(GarageTheme.textSecondary)
-                }
-
-                primaryTrackerButton(drill.successActionTitle, symbolName: "plus", action: onIncrementReps)
-
-                HStack(spacing: 10) {
-                    secondaryTrackerButton(drill.correctionActionTitle, symbolName: "minus", action: onDecrementReps)
-                    tertiaryTrackerButton("Reset", symbolName: "arrow.counterclockwise", action: onResetReps)
                 }
             }
         }
@@ -431,25 +382,6 @@ struct BucketDrillExecutionTracker: View {
                 }
         }
         .buttonStyle(.plain)
-    }
-
-    private func tertiaryTrackerButton(_ title: String, symbolName: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: symbolName)
-                .font(.subheadline.weight(.semibold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.86)
-                .frame(maxWidth: .infinity)
-                .frame(height: 38)
-                .background(.white.opacity(0.04))
-                .clipShape(Capsule())
-                .overlay {
-                    Capsule()
-                        .stroke(GarageTheme.border, lineWidth: 1)
-                }
-        }
-        .buttonStyle(.plain)
-        .foregroundStyle(GarageTheme.textSecondary)
     }
 
     private func formattedTime(_ seconds: Int) -> String {

@@ -105,3 +105,203 @@ struct BucketStrikeView: View {
     }
 }
 
+#Preview {
+    NavigationStack {
+        BucketStrikeView()
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Edit Plan") {
+    NavigationStack {
+        BucketEditPlanView(
+            originalPlan: BucketPracticePlan.makeDisplayPlan(
+                practiceType: .range,
+                focus: BucketSessionFocus.focuses(for: .range)[0]
+            ),
+            currentPlan: BucketPracticePlan.makeDisplayPlan(
+                practiceType: .range,
+                focus: BucketSessionFocus.focuses(for: .range)[0]
+            )
+        ) { _ in }
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Active Flow") {
+    NavigationStack {
+        BucketActivePracticeView(
+            plan: BucketPracticePlan.makeDisplayPlan(
+                practiceType: .range,
+                focus: BucketSessionFocus.focuses(for: .range)[0]
+            )
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Session Complete") {
+    BucketSessionCompleteView(
+        plan: BucketPracticePlan.makeDisplayPlan(
+            practiceType: .range,
+            focus: BucketSessionFocus.focuses(for: .range)[0]
+        )
+    ) {}
+    .background(GarageTheme.background)
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Drill Intel") {
+    BucketInstructionOverlayPreview()
+        .preferredColorScheme(.dark)
+}
+
+private struct BucketInstructionOverlayPreview: View {
+    @State private var isPresented = true
+
+    var body: some View {
+        ZStack {
+            BucketSpatialPracticeBackground()
+
+            BucketInstructionOverlaySheet(
+                drill: BucketPracticePlan.makeDisplayPlan(
+                    practiceType: .range,
+                    focus: BucketSessionFocus.focuses(for: .range)[0]
+                ).drills[0],
+                isPresented: $isPresented
+            )
+        }
+    }
+}
+
+#Preview("BucketStrike Setup Card") {
+    BucketPreviewCanvas {
+        BucketSetupTeachingView(
+            drill: BucketPreviewContent.manualDrill,
+            drillNumber: 1,
+            drillCount: 4,
+            onStart: {},
+            onShowIntel: {}
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Active Manual") {
+    BucketPreviewCanvas {
+        BucketActiveExecutionView(
+            drill: BucketPreviewContent.manualDrill,
+            state: BucketPreviewContent.manualState,
+            canGoPrevious: true,
+            isFinalDrill: false,
+            onPrevious: {},
+            onLogResult: {},
+            onShowIntel: {}
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Active Timed") {
+    BucketPreviewCanvas {
+        BucketActiveExecutionView(
+            drill: BucketPreviewContent.timedDrill,
+            state: BucketPreviewContent.timedState,
+            canGoPrevious: true,
+            isFinalDrill: false,
+            onPrevious: {},
+            onLogResult: {},
+            onShowIntel: {}
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Drill Complete") {
+    BucketPreviewCanvas {
+        BucketDrillCompleteView(
+            drill: BucketPreviewContent.manualDrill,
+            state: BucketPreviewContent.manualState,
+            isFinalDrill: false,
+            onContinue: {},
+            onReview: {}
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
+#Preview("BucketStrike Next Drill") {
+    BucketPreviewCanvas {
+        BucketNextDrillPreviewView(
+            drill: BucketPreviewContent.timedDrill,
+            previousDrill: BucketPreviewContent.manualDrill,
+            drillNumber: 2,
+            drillCount: 4,
+            onStart: {},
+            onReviewSetup: {}
+        )
+    }
+    .preferredColorScheme(.dark)
+}
+
+struct BucketPreviewCanvas<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        ZStack {
+            BucketSpatialPracticeBackground()
+
+            ScrollView(showsIndicators: false) {
+                content
+                    .padding(16)
+            }
+        }
+    }
+}
+
+enum BucketPreviewContent {
+    static let plan = BucketPracticePlan.makeDisplayPlan(
+        practiceType: .range,
+        focus: BucketSessionFocus.focuses(for: .range)[0]
+    )
+
+    static var manualDrill: BucketPlanDrill {
+        plan.drills.first { $0.executionConfiguration.mode == .manualReps } ?? plan.drills[0]
+    }
+
+    static var timedDrill: BucketPlanDrill {
+        plan.drills.first { $0.executionConfiguration.mode == .timed } ?? plan.drills[0]
+    }
+
+    static var manualState: BucketDrillExecutionState {
+        var state = BucketDrillExecutionState(target: manualDrill.resultTarget)
+        state.captureResult(succeeded: 6)
+        return state
+    }
+
+    static var timedState: BucketDrillExecutionState {
+        var state = BucketDrillExecutionState(target: timedDrill.resultTarget)
+        state.elapsedSeconds = 142
+        state.timedStatus = .running
+        return state
+    }
+}
+
+#Preview("Home") {
+    GarageHomeView()
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Tempo") {
+    TempoView()
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Colt's Caddy") {
+    ColtsCaddyView()
+        .preferredColorScheme(.dark)
+}

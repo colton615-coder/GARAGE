@@ -1,6 +1,7 @@
 [
   {
     "id": "towel-behind",
+    "featured": true,
     "name": "Towel Behind",
     "version": 1,
     "category": "irons",
@@ -21,6 +22,7 @@
   },
   {
     "id": "toe-heel-gate",
+    "featured": true,
     "name": "Toe-Heel Gate",
     "version": 1,
     "category": "irons",
@@ -41,6 +43,7 @@
   },
   {
     "id": "feet-together-balance",
+    "featured": true,
     "name": "Feet-Together Balance",
     "version": 1,
     "category": "irons",
@@ -61,6 +64,7 @@
   },
   {
     "id": "driver-gate",
+    "featured": false,
     "name": "Driver Gate",
     "version": 1,
     "category": "driver",
@@ -81,6 +85,7 @@
   },
   {
     "id": "three-and-switch",
+    "featured": false,
     "name": "Three-and-Switch",
     "version": 1,
     "category": "driver",
@@ -101,6 +106,7 @@
   },
   {
     "id": "carry-ladder",
+    "featured": true,
     "name": "Carry Ladder",
     "version": 1,
     "category": "wedges",
@@ -121,6 +127,7 @@
   },
   {
     "id": "trajectory-three-ways",
+    "featured": false,
     "name": "Trajectory Three-Ways",
     "version": 1,
     "category": "wedges",
@@ -141,6 +148,7 @@
   },
   {
     "id": "landing-spot-towel",
+    "featured": true,
     "name": "Landing-Spot Towel",
     "version": 1,
     "category": "chipping",
@@ -161,6 +169,7 @@
   },
   {
     "id": "roll-out-ratios",
+    "featured": false,
     "name": "Roll-Out Ratios",
     "version": 1,
     "category": "chipping",
@@ -181,6 +190,7 @@
   },
   {
     "id": "lead-hand-only",
+    "featured": true,
     "name": "Lead-Hand Only",
     "version": 1,
     "category": "chipping",
@@ -201,6 +211,7 @@
   },
   {
     "id": "splash-line",
+    "featured": false,
     "name": "Splash Line",
     "version": 1,
     "category": "bunker",
@@ -221,6 +232,7 @@
   },
   {
     "id": "bunker-ladder",
+    "featured": false,
     "name": "Bunker Ladder",
     "version": 1,
     "category": "bunker",
@@ -241,6 +253,7 @@
   },
   {
     "id": "start-line-gate",
+    "featured": true,
     "name": "Start-Line Gate",
     "version": 1,
     "category": "putting",
@@ -261,6 +274,7 @@
   },
   {
     "id": "distance-ladder",
+    "featured": false,
     "name": "Distance Ladder",
     "version": 1,
     "category": "putting",
@@ -281,6 +295,7 @@
   },
   {
     "id": "clock-circle",
+    "featured": true,
     "name": "Clock Circle",
     "version": 1,
     "category": "putting",
@@ -301,6 +316,7 @@
   },
   {
     "id": "par-18",
+    "featured": false,
     "name": "Par 18",
     "version": 1,
     "category": "chipping",
@@ -321,6 +337,7 @@
   },
   {
     "id": "nine-shot-range",
+    "featured": false,
     "name": "Nine-Shot Range",
     "version": 1,
     "category": "irons",
@@ -341,6 +358,7 @@
   },
   {
     "id": "two-ball-takeaway",
+    "featured": false,
     "name": "Two-Ball Takeaway",
     "version": 1,
     "category": "irons",
@@ -361,6 +379,7 @@
   },
   {
     "id": "continuous-swings",
+    "featured": false,
     "name": "Continuous Swings",
     "version": 1,
     "category": "irons",
@@ -381,6 +400,7 @@
   },
   {
     "id": "circle-your-foot",
+    "featured": false,
     "name": "Circle-Your-Foot",
     "version": 1,
     "category": "bunker",
