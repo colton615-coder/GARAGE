@@ -20,15 +20,15 @@ Garage adapts to where the player is. Range, short-game area, backyard — it ke
 
 These are non-negotiable. When a design or code decision conflicts with one of these, the principle wins.
 
-1. **Minimal tapping.** The player's phone is on the ground during a drill. Every required interaction is a cost. Zero mid-drill taps; results are batched to the end of the drill.
+1. **Minimal tapping.** The player's phone is on the ground during a drill. Every required interaction is a cost — keep them near zero. Results are batched to the end of the drill; the app never *requires* a mid-drill tap. **One sanctioned exception:** an optional, player-initiated Note capture (see Principle 5). It is never required, never prompted, and never tied to rep/score data — it exists only for the player to jot a passing swing insight if they choose. The ban is on *required* and *app-requested* mid-drill input; a single optional capture the player may ignore entirely does not violate it.
 
 2. **Show, don't tell.** Instruction is visual first — annotated stills and GIFs of stick placement, address, and execution. Text is a caption, not a paragraph.
 
 3. **One instruction per line.** Copy is plain and short. Never stack multiple instructions into one sentence. Separate the *what to do* from *how it's scored* — scoring is app logic, not something the player parses.
 
-4. **Two phases, flipped visual weight.** Setup phase (before the swing) is instruction-heavy: visuals are the hero. Execution phase (hitting balls) is quiet: the cue stays glanceable-small, visuals collapse. The one exception: timer/tempo drills go loud during execution — big, bright, pacing visual. (This loud pacing visual is *output* — the app showing rhythm — not *tracking*. It does not read or require player input. The ban in Principle 5 is on input/tracking, not on output. See Principle 5.)
+4. **One persistent drill screen — no phase navigation.** Setup text and visual stay fixed on screen throughout the drill; the player does not navigate between separate "setup" and "execution" screens. A single action button below the setup content morphs in place — start control → contextual controls (Next, Add Note) — without the screen reloading or navigating. The setup visual remains the hero and does not collapse. Rep logging happens in a modal at completion (batch entry). *(Supersedes the prior "two phases, flipped visual weight" model — see Decision Log 2026-07-10.)* The timer/tempo exception still holds for Tempo drills: loud pacing visual during execution, which is passive output, not input.
 
-5. **Teach then get out of the way.** Once the player is hitting, the screen has done its job. No player input mid-drill — no live rep-tracking, no button-hunting, no scrolling. (Passive output the player doesn't interact with, like a tempo pacing visual, is allowed — see Principle 4. The ban is specifically on requiring the player to *do* something.)
+5. **Teach then get out of the way — with one carve-out.** Once the player is hitting, the app requests nothing. No live rep-tracking, no score prompts, no "did you make it?" — all rep/success logging stays in the completion modal (batch entry only). **The single exception:** an optional, always-present, player-initiated Note capture for a passing swing thought. The app never prompts it; it does nothing unless the player reaches for it; it is never tied to rep or score data. App-requested mid-drill input remains banned. Player-initiated optional note capture is allowed. *(See Decision Log 2026-07-10.)*
 
 6. **Local-first.** No network dependency for core practice. No new third-party dependencies without explicit human approval.
 
@@ -40,7 +40,7 @@ These are non-negotiable. When a design or code decision conflicts with one of t
 
 This section is the anti-scope fence. If a task drifts toward anything here, stop and flag it — don't build it.
 
-1. **No manual live rep-tracking.** Banned. The player does not tap per-swing. No increment/decrement/reset-per-rep interfaces. Results are entered once, batched, at the end of a drill. This is permanent. (Automatic counting — e.g. future video verification, Open Questions #1 — is compatible with this rule; the ban is on requiring player interaction mid-drill.)
+1. **No manual live rep-tracking.** Banned. The player does not tap per-swing. No increment/decrement/reset-per-rep interfaces. Results are entered once, batched, at the end of a drill. This is permanent. (Automatic counting — e.g. future video verification, Open Questions #1 — is compatible with this rule; the ban is on requiring player interaction mid-drill.) **Not banned:** the optional player-initiated Note capture (Principles 1 & 5) — it carries no rep/score data and is never required. Do not remove it as a Principle 1 violation; it is an explicit sanctioned exception.
 
 2. **No multi-skin UI proposals.** The five preview-gallery proposals (Scoreboard Ring, Rep Ladder, Focus First, Console, Thumb Reach) are dead — they were live-tracker reskins. If they exist as code (e.g. a `BucketStrikePreviewGallery` file), they may be deleted; if conversation-only, ignore. Don't revive or extend them.
 
@@ -96,3 +96,18 @@ Unresolved bets. Do not build these without explicit direction; do not treat the
 2. **UI kit color contradiction.** `GARAGE_UI_KIT.md` says blue owns primary actions; the shipped app uses green. Pending human decision on which is canon; until then, agents leave both as-is and do not "fix" either.
 
 3. **Home's future depth.** Currently a launchpad. Whether it grows session summaries/history depends on persistence landing (Direction #6 prerequisite).
+
+---
+
+## 7. Decision Log
+
+*Dated record of direction changes. Newest first. When a decision overturns or amends a Principle, the Principle is edited in place AND logged here — the log explains the "why," the Principle is the "what."*
+
+### 2026-07-10 — BucketStrike single-screen drill redesign
+- **Amended Principle 1 (founding constraint).** Reversed strict "zero mid-drill taps" to allow ONE sanctioned exception: optional, player-initiated Note capture. Never required, never prompted, never tied to rep/score data. All other mid-drill input still banned.
+- **Overturned Principle 4.** Two-phase model (setup screen → execution screen) replaced by ONE persistent drill screen. Action button morphs in place (Start → Next / Add Note); no navigation, no reload. Setup visual stays fixed as hero.
+- **Amended Principle 5.** Added the player-initiated Note carve-out with hard line: app-requested input banned, player-initiated optional note allowed.
+- **Guarded Section 3 #1.** Explicit note that the Note button is a sanctioned exception, so agents don't delete it as a live-tracking violation.
+- **Rep logging:** completion modal, batch entry — consistent with existing rules, no change.
+- **PARKED (not decided):** setup visual is "ugly + useless." Routing unconfirmed — [CONFIRM whether Carry Ladder lands on an authored vector or BucketGenericPracticeVector placeholder]. Needs HTML mockup options before any redesign directive. Do NOT build.
+- **ACTIONABLE (separate small task):** Carry Ladder setup copy has redundancy ("three targets" stated twice across setup lines). Cut it. Lives in drills.json setup/steps fields — data-layer edit, keep GarageTests green.
