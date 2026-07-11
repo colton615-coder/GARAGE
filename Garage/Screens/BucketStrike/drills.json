@@ -6,6 +6,10 @@
     "version": 1,
     "category": "irons",
     "environments": ["range", "net"],
+    "executionModels": {
+      "range": "quantity",
+      "net": "timer"
+    },
     "focuses": ["contact"],
     "type": "builder",
     "purpose": "Groove ball-first contact and move the swing's low point forward.",
@@ -27,6 +31,10 @@
     "version": 1,
     "category": "irons",
     "environments": ["range", "net"],
+    "executionModels": {
+      "range": "quantity",
+      "net": "timer"
+    },
     "focuses": ["contact"],
     "type": "builder",
     "purpose": "Train center-face strike quality and remove toe/heel mishits.",
@@ -48,6 +56,10 @@
     "version": 1,
     "category": "irons",
     "environments": ["range", "net"],
+    "executionModels": {
+      "range": "quantity",
+      "net": "timer"
+    },
     "focuses": ["tempo"],
     "type": "builder",
     "purpose": "Expose and smooth out rushed tempo by removing the base of support.",
@@ -69,6 +81,9 @@
     "version": 1,
     "category": "driver",
     "environments": ["range"],
+    "executionModels": {
+      "range": "quantity"
+    },
     "focuses": ["direction"],
     "type": "builder",
     "purpose": "Train a neutral-to-square path and center strike off the tee.",
@@ -90,6 +105,9 @@
     "version": 1,
     "category": "driver",
     "environments": ["range"],
+    "executionModels": {
+      "range": "quantity"
+    },
     "focuses": ["tempo"],
     "type": "transfer",
     "purpose": "Hold the same tempo across the driver and wedge, the two clubs amateurs most often rush and decelerate.",
@@ -111,6 +129,9 @@
     "version": 1,
     "category": "wedges",
     "environments": ["range", "shortGame"],
+    "executionModels": {
+      "range": "quantity"
+    },
     "focuses": ["distanceControl"],
     "type": "builder",
     "purpose": "Build a reliable carry-distance map for partial wedge shots.",
@@ -195,6 +216,9 @@
     "version": 1,
     "category": "chipping",
     "environments": ["shortGame", "net"],
+    "executionModels": {
+      "net": "timer"
+    },
     "focuses": ["contact"],
     "type": "builder",
     "purpose": "Kill the scoop and flip that cause chunked and skulled chips.",
@@ -342,6 +366,9 @@
     "version": 1,
     "category": "irons",
     "environments": ["range"],
+    "executionModels": {
+      "range": "quantity"
+    },
     "focuses": ["adaptability", "trajectory"],
     "type": "transfer",
     "purpose": "Vary club, target, and flight every shot to mimic on-course demand.",
@@ -363,6 +390,10 @@
     "version": 1,
     "category": "irons",
     "environments": ["range", "net"],
+    "executionModels": {
+      "range": "quantity",
+      "net": "timer"
+    },
     "focuses": ["tempo"],
     "type": "builder",
     "purpose": "Smooth a rushed takeaway.",
@@ -384,6 +415,10 @@
     "version": 1,
     "category": "irons",
     "environments": ["range", "net"],
+    "executionModels": {
+      "range": "quantity",
+      "net": "timer"
+    },
     "focuses": ["tempo"],
     "type": "builder",
     "purpose": "Remove stop-start rhythm and let the swing carry itself.",

@@ -146,6 +146,86 @@ struct PracticePlanValidatorTests {
         #expect(PracticePlanValidator.validate(plan) == .valid)
     }
 
+    @Test
+    func rangeDrillMissingExecutionModelFails() throws {
+        let plan = PracticePlan(
+            environment: .range,
+            focus: .contact,
+            drills: [
+                planDrill(
+                    order: 1,
+                    drill: drill(
+                        id: "range-missing-execution-model",
+                        executionModels: nil
+                    )
+                )
+            ]
+        )
+
+        let violations = try #require(invalidViolations(for: plan))
+
+        #expect(
+            violations == [
+                .missingExecutionModel(
+                    drillID: "range-missing-execution-model",
+                    environment: .range,
+                    expected: .quantity
+                )
+            ]
+        )
+    }
+
+    @Test
+    func netDrillWithQuantityExecutionModelFails() throws {
+        let plan = PracticePlan(
+            environment: .net,
+            focus: .contact,
+            drills: [
+                planDrill(
+                    order: 1,
+                    drill: drill(
+                        id: "net-wrong-execution-model",
+                        environments: [.net],
+                        executionModels: [.net: .quantity]
+                    )
+                )
+            ]
+        )
+
+        let violations = try #require(invalidViolations(for: plan))
+
+        #expect(
+            violations == [
+                .executionModelMismatch(
+                    drillID: "net-wrong-execution-model",
+                    environment: .net,
+                    expected: .timer,
+                    actual: .quantity
+                )
+            ]
+        )
+    }
+
+    @Test
+    func shortGameDrillAllowsUnsetExecutionModel() {
+        let plan = PracticePlan(
+            environment: .shortGame,
+            focus: .contact,
+            drills: [
+                planDrill(
+                    order: 1,
+                    drill: drill(
+                        id: "short-game-unset-execution-model",
+                        environments: [.shortGame],
+                        executionModels: nil
+                    )
+                )
+            ]
+        )
+
+        #expect(PracticePlanValidator.validate(plan) == .valid)
+    }
+
     private func invalidViolations(for plan: PracticePlan) -> [PracticePlanViolation]? {
         guard case let .invalid(violations) = PracticePlanValidator.validate(plan) else {
             return nil
@@ -171,7 +251,8 @@ struct PracticePlanValidatorTests {
     private func drill(
         id: String,
         environments: [PracticeEnvironment] = [.range],
-        focuses: [Focus] = [.contact]
+        focuses: [Focus] = [.contact],
+        executionModels: [PracticeEnvironment: DrillExecutionModel]? = [.range: .quantity]
     ) -> Drill {
         Drill(
             id: id,
@@ -179,6 +260,7 @@ struct PracticePlanValidatorTests {
             version: 1,
             category: .irons,
             environments: environments,
+            executionModels: executionModels,
             focuses: focuses,
             type: .builder,
             purpose: "Fixture purpose.",

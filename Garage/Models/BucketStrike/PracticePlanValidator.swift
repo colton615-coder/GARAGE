@@ -19,6 +19,17 @@ enum PracticePlanViolation: Equatable {
     case drillCountOutOfRange(actual: Int, allowed: ClosedRange<Int>)
     case duplicateDrillIDs([String])
     case nonContiguousOrdering(expected: [Int], actual: [Int])
+    case missingExecutionModel(
+        drillID: String,
+        environment: PracticeEnvironment,
+        expected: DrillExecutionModel
+    )
+    case executionModelMismatch(
+        drillID: String,
+        environment: PracticeEnvironment,
+        expected: DrillExecutionModel,
+        actual: DrillExecutionModel
+    )
 }
 
 enum PracticePlanValidator {
@@ -76,9 +87,48 @@ enum PracticePlanValidator {
                     )
                 )
             }
+
+            for environment in drill.environments {
+                guard let expectedExecutionModel = requiredExecutionModel(for: environment) else {
+                    continue
+                }
+
+                guard let actualExecutionModel = drill.executionModels?[environment] else {
+                    violations.append(
+                        .missingExecutionModel(
+                            drillID: drill.id,
+                            environment: environment,
+                            expected: expectedExecutionModel
+                        )
+                    )
+                    continue
+                }
+
+                if actualExecutionModel != expectedExecutionModel {
+                    violations.append(
+                        .executionModelMismatch(
+                            drillID: drill.id,
+                            environment: environment,
+                            expected: expectedExecutionModel,
+                            actual: actualExecutionModel
+                        )
+                    )
+                }
+            }
         }
 
         return violations.isEmpty ? .valid : .invalid(violations)
+    }
+
+    private static func requiredExecutionModel(for environment: PracticeEnvironment) -> DrillExecutionModel? {
+        switch environment {
+        case .range:
+            .quantity
+        case .net:
+            .timer
+        case .shortGame, .puttingGreen:
+            nil
+        }
     }
 
     private static func duplicateDrillIDs(in drills: [PracticePlanDrill]) -> [String] {

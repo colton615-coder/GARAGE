@@ -35,6 +35,31 @@ struct DrillLibraryFeaturedTests {
     }
 
     @Test
+    func rangeAndNetDrillsDeclareRequiredExecutionModels() {
+        let library = DrillLibrary()
+
+        for drill in library.allDrills {
+            if drill.environments.contains(.range) {
+                #expect(drill.executionModels?[.range] == .quantity)
+            }
+
+            if drill.environments.contains(.net) {
+                #expect(drill.executionModels?[.net] == .timer)
+            }
+        }
+    }
+
+    @Test
+    func shortGameAndPuttingOnlyDrillsLeaveExecutionModelsUnset() {
+        let library = DrillLibrary()
+        let undecidedEnvironmentDrills = library.allDrills.filter { drill in
+            !drill.environments.contains(.range) && !drill.environments.contains(.net)
+        }
+
+        #expect(undecidedEnvironmentDrills.allSatisfy { $0.executionModels == nil })
+    }
+
+    @Test
     func generatedPlansContainOnlyFeaturedDrills() {
         for practiceType in BucketPracticeType.allCases {
             for focus in BucketSessionFocus.focuses(for: practiceType) {
